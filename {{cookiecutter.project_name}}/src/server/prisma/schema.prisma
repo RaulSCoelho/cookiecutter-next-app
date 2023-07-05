@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "{{cookiecutter.data_base}}"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id {{ '@default(auto()) @map("_id") @db.ObjectId' if cookiecutter.data_base == 'mongodb' else '@default(uuid())' }}
+  email    String  @unique
+  name     String?
+  imageUrl String?
+}

@@ -1,0 +1,5 @@
+{
+  "project_name": "cookiecutter-next-app",
+  "description": "{{cookiecutter.project_name}} is a new Next.js application.",
+  "data_base": ["mongodb", "postgresql"]
+}
