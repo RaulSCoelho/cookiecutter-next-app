@@ -10,7 +10,7 @@ export async function GET() {
   const { users, error } = await usersApi.get()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ users })
+  return NextResponse.json(users)
 }
 
 export async function POST(req: UserRequest) {
@@ -18,5 +18,5 @@ export async function POST(req: UserRequest) {
   const { user, error } = await usersApi.create(body)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ user })
+  return NextResponse.json(user)
 }

@@ -7,6 +7,7 @@ import { IoMdTrash as Trash } from 'react-icons/io'
 import { Button } from '@/components/Buttons'
 import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
+import { useAxios } from '@/hooks/useAxios'
 import { createUserSchema } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
@@ -29,32 +30,23 @@ export function Users({ users }: Props) {
 
   async function onSubmit(user: User) {
     setIsLoading(true)
-    try {
-      const res = await fetch('api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      })
-
-      if (!res.ok) {
-        const { error } = await res.json()
-        throw new Error(error)
-      }
-
-      const created: { user: User } = await res.json()
-      setUserList(prev => [...prev, created.user])
-    } catch (error: any) {
-      setError(error.message)
+    const { data, error } = await useAxios.post<User>('api/users', user)
+    if (error) {
+      setError(error.error)
+    } else {
+      setUserList(prev => [...prev, data])
     }
     setIsLoading(false)
   }
 
   async function handleDelete(id: string) {
     setIsLoading(true)
-    await fetch(`api/users/${id}`, { method: 'DELETE' })
-    setUserList(prev => prev.filter(u => u.id !== id))
+    const { error } = await useAxios.delete(`api/users/${id}`)
+    if (error) {
+      setError(error.error)
+    } else {
+      setUserList(prev => prev.filter(u => u.id !== id))
+    }
     setIsLoading(false)
   }
 
