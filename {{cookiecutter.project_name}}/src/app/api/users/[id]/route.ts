@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params: { id } }: Params) {
   const { user, error } = await usersApi.getById(id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ user })
+  return NextResponse.json(user)
 }
 
 export async function PUT(req: UserRequest, { params: { id } }: Params) {
@@ -24,7 +24,7 @@ export async function PUT(req: UserRequest, { params: { id } }: Params) {
   const { user, error } = await usersApi.update({ ...body, id })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ user })
+  return NextResponse.json(user)
 }
 
 export async function DELETE(req: NextRequest, { params: { id } }: Params) {
