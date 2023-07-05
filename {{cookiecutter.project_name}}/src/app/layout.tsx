@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: {
-    default: 'Home | MongoDB',
-    template: '%s | MongoDB'
+    default: 'Home | PostgreSQL',
+    template: '%s | PostgreSQL'
   },
-  description: 'Next application with MongoDB'
+  description: 'Next application with PostgreSQL'
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
