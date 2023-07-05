@@ -10,6 +10,8 @@ import {
 } from 'react'
 import { ChangeHandler, UseFormRegisterReturn } from 'react-hook-form'
 
+import classnames from 'classnames'
+
 type MoneyInputBaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   name?: never
   label?: string
@@ -92,8 +94,8 @@ export function MoneyInput({
     // Send the updated string to the input
     inputElement.value = inputValue
 
-    onChange && onChange(event as ChangeEvent<HTMLInputElement>)
-    if (event.type === 'blur') onBlur && onBlur(event as FocusEvent<HTMLInputElement>)
+    onChange?.(event as ChangeEvent<HTMLInputElement>)
+    if (event.type === 'blur') onBlur?.(event as FocusEvent<HTMLInputElement>)
   }
 
   if (register) {
@@ -110,6 +112,11 @@ export function MoneyInput({
     }
   }
 
+  const inputClasses = classnames(
+    'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
+    className
+  )
+
   return (
     <div className={wrapperClassName}>
       {label && (
@@ -120,7 +127,7 @@ export function MoneyInput({
       <input
         type="text"
         pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-        className={`w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none ${className}`}
+        className={inputClasses}
         placeholder={placeholder || '$0.00'}
         inputMode="decimal"
         {...(!register && { onChange: formatCurrency, onBlur: formatCurrency })}

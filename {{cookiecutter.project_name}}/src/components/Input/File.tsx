@@ -11,6 +11,8 @@ import {
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { IoAttach as AttachFileIcon } from 'react-icons/io5'
 
+import classnames from 'classnames'
+
 import { Snackbar } from '../Feedback/Snackbar'
 
 type FileBaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
@@ -47,7 +49,7 @@ export function File({ text, register, error, className, wrapperClassName, name,
         return
       }
 
-      onChange && onChange(e)
+      onChange?.(e)
     }
   }
 
@@ -60,12 +62,15 @@ export function File({ text, register, error, className, wrapperClassName, name,
     }
   }
 
+  const inputClasses = classnames(
+    'flex max-w-max cursor-pointer gap-1 rounded-lg bg-skin-button p-2 text-sm uppercase tracking-wide text-gray-100 shadow-lg hover:bg-skin-button-hover active:bg-skin-button',
+    className
+  )
+
   return (
     <>
       <div className={wrapperClassName}>
-        <label
-          className={`flex max-w-max cursor-pointer gap-1 rounded-lg bg-skin-button p-2 text-sm uppercase tracking-wide text-gray-100 shadow-lg hover:bg-skin-button-hover active:bg-skin-button ${className}`}
-        >
+        <label className={inputClasses}>
           <AttachFileIcon fontSize="small" />
           <span>{text || 'File'}</span>
           <input

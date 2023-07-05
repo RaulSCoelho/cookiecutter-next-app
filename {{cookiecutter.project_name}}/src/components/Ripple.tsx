@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react'
 
-interface RippleProps {
+export interface RippleProps {
   top: number
   left: number
   size: number
