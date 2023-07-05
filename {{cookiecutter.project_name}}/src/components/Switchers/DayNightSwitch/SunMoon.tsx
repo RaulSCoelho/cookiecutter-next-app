@@ -43,7 +43,7 @@ export function SunMoon({ side, size, onClick }: Props) {
   }, [size])
 
   function handleClick() {
-    onClick && onClick(positions.moon[side] === '0' ? 'day' : 'night')
+    onClick?.(positions.moon[side] === '0' ? 'day' : 'night')
   }
 
   return (
