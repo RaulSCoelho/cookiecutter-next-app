@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FaCheckCircle, FaInfoCircle, FaTimes, FaBan, FaExclamation } from 'react-icons/fa'
 
+import classnames from 'classnames'
+
 export interface SnackbarProps {
   open: boolean
   message: string
@@ -54,11 +56,10 @@ export function Snackbar({ open, message, type, onClose, position = 'left-bottom
     }
   }, [open, handleClose, duration])
 
+  const classes = classnames('fixed z-30 rounded-md p-4 shadow-md transition-[inset] duration-500 ease-in-out', color)
+
   return (
-    <div
-      style={style}
-      className={`fixed z-30 rounded-md p-4 shadow-md transition-[inset] duration-500 ease-in-out ${color}`}
-    >
+    <div style={style} className={classes}>
       <div className="flex items-center gap-3">
         {icon}
         <p className="max-w-[250px] text-sm">{message}</p>

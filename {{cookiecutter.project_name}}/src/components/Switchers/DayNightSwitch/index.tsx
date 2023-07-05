@@ -34,9 +34,9 @@ export function DayNightSwitch({ day = true, onDay, onNight, size = 1 }: DayNigh
   function handleChange(side: Side) {
     setSide(side)
     if (side === 'day') {
-      onDay && onDay()
+      onDay?.()
     } else {
-      onNight && onNight()
+      onNight?.()
     }
   }
 

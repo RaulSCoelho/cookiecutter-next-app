@@ -2,7 +2,10 @@
 
 import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, MouseEvent, ReactNode, useState } from 'react'
 
-import { Ripple } from '../Ripple'
+import classnames from 'classnames'
+import { v4 as uuid } from 'uuid'
+
+import { Ripple, RippleProps } from '../Ripple'
 import { Spinner } from '../Spinner'
 
 export interface ButtonBaseProps
@@ -25,8 +28,7 @@ export function ButtonBase({
   onClick,
   ...props
 }: ButtonBaseProps) {
-  const [ripples, setRipples] = useState<JSX.Element[]>([])
-  const [rippleIndex, setRippleIndex] = useState(0)
+  const [ripples, setRipples] = useState<(RippleProps & { id: string })[]>([])
 
   function addRipple(e: MouseEvent<HTMLButtonElement>) {
     const button = e.currentTarget as HTMLButtonElement
@@ -34,43 +36,39 @@ export function ButtonBase({
     const top = Math.abs(e.clientY - buttonRect.top)
     const left = Math.abs(e.clientX - buttonRect.left)
     const right = Math.abs(e.clientX - buttonRect.right)
+    const size = Math.max(left, right) * 2
+    const ripple = { id: uuid(), top, left, size, color: rippleColor }
 
-    setRipples(prev => [
-      ...prev,
-      <Ripple key={rippleIndex} top={top} left={left} size={Math.max(left, right) * 2} color={rippleColor} />
-    ])
+    setRipples(prev => [...prev, ripple])
 
     setTimeout(() => {
-      setRipples(prev => prev.filter(r => r.key != rippleIndex))
+      setRipples(prev => prev.filter(r => r.id !== ripple.id))
     }, 550)
-
-    setRippleIndex(prev => prev + 1)
   }
 
   function handleClick(e: MouseEvent<HTMLButtonElement>) {
     if (!disableRipple) addRipple(e)
-    onClick && onClick(e)
+    onClick?.(e)
   }
 
-  if (readOnly) {
-    className += ' bg-gray-400'
-  }
+  const classes = classnames(
+    'relative select-none overflow-hidden shadow',
+    { 'active:shadow-lg': !(readOnly || loading) },
+    { 'bg-gray-400': readOnly },
+    className
+  )
 
   return (
-    <button
-      onClick={handleClick}
-      className={`relative select-none overflow-hidden shadow active:shadow-lg ${className}`}
-      disabled={readOnly || loading}
-      type={type}
-      {...props}
-    >
+    <button onClick={handleClick} className={classes} disabled={readOnly || loading} type={type} {...props}>
       {children}
       {loading && (
         <div className="absolute inset-0 z-[1] flex items-center justify-center rounded bg-gray-400 text-gray-500">
           <Spinner className="p-1" />
         </div>
       )}
-      {ripples.map(r => r)}
+      {ripples.map(({ id, ...props }) => (
+        <Ripple key={id} {...props} />
+      ))}
     </button>
   )
 }
