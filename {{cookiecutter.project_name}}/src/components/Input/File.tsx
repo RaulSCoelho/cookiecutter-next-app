@@ -9,7 +9,7 @@ import {
   useState
 } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
-import { IoAttach as AttachFileIcon } from 'react-icons/io5'
+import { MdAttachFile as AttachFileIcon } from 'react-icons/md'
 
 import classnames from 'classnames'
 
@@ -71,7 +71,7 @@ export function File({ text, register, error, className, wrapperClassName, name,
     <>
       <div className={wrapperClassName}>
         <label className={inputClasses}>
-          <AttachFileIcon fontSize="small" />
+          <AttachFileIcon size={20} />
           <span>{text || 'File'}</span>
           <input
             type="file"
