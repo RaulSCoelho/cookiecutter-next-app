@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: {
-    default: 'Home | {{cookiecutter.project_name}}',
-    template: '%s | {{cookiecutter.project_name}}'
+    default: 'Home | MongoDB',
+    template: '%s | MongoDB'
   },
-  description: '{{cookiecutter.description}}'
+  description: 'Next application with MongoDB'
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

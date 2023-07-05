@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "{{cookiecutter.data_base}}"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String  @id {{ '@default(auto()) @map("_id") @db.ObjectId' if cookiecutter.data_base == 'mongodb' else '@default(uuid())' }}
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   email    String  @unique
   name     String?
   imageUrl String?
