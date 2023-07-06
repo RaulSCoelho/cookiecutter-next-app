@@ -34,9 +34,11 @@ export function ButtonBase({
     const button = e.currentTarget as HTMLButtonElement
     const buttonRect = button.getBoundingClientRect()
     const top = Math.abs(e.clientY - buttonRect.top)
-    const left = Math.abs(e.clientX - buttonRect.left)
     const right = Math.abs(e.clientX - buttonRect.right)
-    const size = Math.max(left, right) * 2
+    const bottom = Math.abs(e.clientY - buttonRect.bottom)
+    const left = Math.abs(e.clientX - buttonRect.left)
+    const hypotenuse = Math.sqrt(Math.max(top, bottom) ** 2 + Math.max(right, left) ** 2)
+    const size = Math.max(top, right, bottom, left, hypotenuse) * 2
     const ripple = { id: uuid(), top, left, size, color: rippleColor }
 
     setRipples(prev => [...prev, ripple])
