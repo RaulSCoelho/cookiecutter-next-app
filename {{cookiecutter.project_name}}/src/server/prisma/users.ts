@@ -3,7 +3,7 @@ import { User } from '@prisma/client'
 
 import { PrismaApi } from '.'
 
-export class UsersApi extends PrismaApi<User> {
+class UsersApi extends PrismaApi<User> {
   constructor() {
     super('user')
   }
@@ -28,3 +28,5 @@ export class UsersApi extends PrismaApi<User> {
     return { result, error }
   }
 }
+
+export const usersApi = new UsersApi()

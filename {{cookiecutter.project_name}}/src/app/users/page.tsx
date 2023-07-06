@@ -1,4 +1,4 @@
-import { UsersApi } from '@/server/prisma/users'
+import { usersApi } from '@/server/prisma/users'
 
 import { Users } from '.'
 
@@ -7,8 +7,7 @@ export const metadata = {
 }
 
 export default async function Page() {
-  const { get: getUsers } = new UsersApi()
-  const { result: users } = await getUsers()
+  const { result: users } = await usersApi.get()
 
   return (
     <div className="px-4 py-10 sm:px-20">
