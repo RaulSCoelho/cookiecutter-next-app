@@ -12,6 +12,7 @@ export interface ButtonBaseProps
   extends Omit<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'ref'> {
   children: ReactNode
   loading?: boolean
+  loadingColored?: boolean
   readOnly?: boolean
   rippleColor?: CSSProperties['color']
   disableRipple?: boolean
@@ -20,6 +21,7 @@ export interface ButtonBaseProps
 export function ButtonBase({
   children,
   loading,
+  loadingColored,
   readOnly,
   rippleColor,
   disableRipple,
@@ -34,9 +36,11 @@ export function ButtonBase({
     const button = e.currentTarget as HTMLButtonElement
     const buttonRect = button.getBoundingClientRect()
     const top = Math.abs(e.clientY - buttonRect.top)
-    const left = Math.abs(e.clientX - buttonRect.left)
     const right = Math.abs(e.clientX - buttonRect.right)
-    const size = Math.max(left, right) * 2
+    const bottom = Math.abs(e.clientY - buttonRect.bottom)
+    const left = Math.abs(e.clientX - buttonRect.left)
+    const hypotenuse = Math.sqrt(Math.max(top, bottom) ** 2 + Math.max(right, left) ** 2)
+    const size = Math.max(top, right, bottom, left, hypotenuse) * 2
     const ripple = { id: uuid(), top, left, size, color: rippleColor }
 
     setRipples(prev => [...prev, ripple])
@@ -58,12 +62,18 @@ export function ButtonBase({
     className
   )
 
+  const spinnerClasses = classnames(
+    'absolute inset-0 z-[1] flex items-center justify-center rounded',
+    { 'bg-gray-400': !loadingColored },
+    { 'bg-inherit': loadingColored }
+  )
+
   return (
     <button onClick={handleClick} className={classes} disabled={readOnly || loading} type={type} {...props}>
       {children}
       {loading && (
-        <div className="absolute inset-0 z-[1] flex items-center justify-center rounded bg-gray-400 text-gray-500">
-          <Spinner className="p-1" />
+        <div className={spinnerClasses}>
+          <Spinner className="p-1 opacity-20" color="black" />
         </div>
       )}
       {ripples.map(({ id, ...props }) => (

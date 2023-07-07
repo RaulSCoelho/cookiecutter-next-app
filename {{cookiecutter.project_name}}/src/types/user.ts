@@ -7,3 +7,7 @@ export const createUserSchema = z.object({
     .nonempty('Please enter an email address.')
     .min(6, 'Email address must be at least 6 characters long.')
 })
+
+export const updateUserSchema = createUserSchema.partial().extend({
+  id: z.string()
+})

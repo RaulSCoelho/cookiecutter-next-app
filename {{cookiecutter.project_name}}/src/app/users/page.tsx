@@ -7,7 +7,8 @@ export const metadata = {
 }
 
 export default async function Page() {
-  const { users } = await usersApi.get()
+  const { result: users } = await usersApi.get()
+
   return (
     <div className="px-4 py-10 sm:px-20">
       <Users users={users || []} />

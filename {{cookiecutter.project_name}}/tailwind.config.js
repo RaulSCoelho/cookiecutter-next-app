@@ -33,7 +33,7 @@ module.exports = {
         ripple: {
           '0%': { transform: 'scale(0)', opacity: '0.3' },
           '50%': { opacity: '0.1' },
-          '100%': { transform: 'scale(1.2)', opacity: '0' }
+          '100%': { transform: 'scale(1)', opacity: '0' }
         },
         strokedrift: {
           '0%': { strokeDasharray: '1px, 200px', strokeDashoffset: '0' },

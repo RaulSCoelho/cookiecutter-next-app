@@ -21,8 +21,10 @@ export function ModalContent({ children, onClose, title, actions, className }: M
   return (
     <>
       <div className="flex justify-between gap-4 p-4 pl-6 text-xl">
-        {title}
-        <CloseButton onClick={onClose} />
+        <div className="grow">{title}</div>
+        <div>
+          <CloseButton onClick={onClose} />
+        </div>
       </div>
       <div className={contentClasses}>{children}</div>
       {actions && (

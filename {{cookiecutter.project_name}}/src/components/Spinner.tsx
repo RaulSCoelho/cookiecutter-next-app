@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 interface Props {
   size?: number
-  color?: string
+  color?: CSSProperties['color']
   className?: string
 }
 
