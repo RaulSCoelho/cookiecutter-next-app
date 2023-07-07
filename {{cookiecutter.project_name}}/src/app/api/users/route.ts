@@ -1,11 +1,6 @@
 import { usersApi } from '@/server/prisma/users'
 import { createUserSchema } from '@/types/user'
-import { User } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
-
-type UserRequest = Omit<NextRequest, 'body'> & {
-  body: User
-}
 
 export async function GET() {
   const { result: users, error } = await usersApi.get()
@@ -14,7 +9,7 @@ export async function GET() {
   return NextResponse.json(users)
 }
 
-export async function POST(req: UserRequest) {
+export async function POST(req: NextRequest) {
   const body = await req.json()
   const userToCreate = createUserSchema.parse(body)
   const { result: user, error } = await usersApi.create({ payload: userToCreate })
