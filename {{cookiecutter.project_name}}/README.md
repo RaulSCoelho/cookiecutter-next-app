@@ -1,22 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 🚀 Getting Started
 
-## Getting Started
+First, install the project dependencies:
 
-First, run the development server:
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🧪 Testing
+To run the tests, use the following command:
+
+```bash
+npm test
+# or
+npm test:ci
+# or
+npm test:coverage
+```
+
+## 🚧 Important
+
+After completing the construction of your schemas, execute the following command to generate the necessary artifacts:
+
+```bash
+npx prisma generate --schema="complete path to your schema.prisma file"
+npx {{ 'prisma db push' if cookiecutter.data_base == 'mongodb' else 'prisma migrate dev' }} --schema="complete path to your schema.prisma file"
+```
+
+Make sure to replace "complete path to your schema.prisma file" with the actual file path of your schema.prisma file.
 
 ## Learn More
 
