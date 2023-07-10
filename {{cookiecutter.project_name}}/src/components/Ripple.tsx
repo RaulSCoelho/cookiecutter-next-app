@@ -16,5 +16,7 @@ export function Ripple({ top, left, size, color = 'white' }: RippleProps) {
     backgroundColor: color
   }
 
-  return <span className="absolute scale-100 animate-ripple rounded-[50%] opacity-0" style={style}></span>
+  return (
+    <span data-test="ripple" className="absolute scale-100 animate-ripple rounded-[50%] opacity-0" style={style}></span>
+  )
 }

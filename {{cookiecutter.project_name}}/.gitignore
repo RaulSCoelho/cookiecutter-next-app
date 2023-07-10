@@ -6,7 +6,9 @@
 .pnp.js
 
 # testing
-/coverage
+coverage
+.swc
+__snapshots__
 
 # next.js
 /.next/
