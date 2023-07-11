@@ -1,32 +1,59 @@
 /** @type {import('tailwindcss').Config} */
 
+function withColorEffect(variableName) {
+  return props => {
+    const { opacity, opacityValue, brightness } = props
+    let color = `rgb(var(${variableName}))`
+    if (opacity !== undefined) {
+      color = `rgba(var(${variableName}), ${opacity})`
+    }
+    if (opacityValue !== undefined) {
+      color = `rgba(var(${variableName}), ${opacityValue})`
+    }
+    if (brightness !== undefined) {
+      color += ` brightness(${brightness})`
+    }
+    return color
+  }
+}
+
+const fillProps = {
+  fill: withColorEffect('--color-fill'),
+  'fill-primary': withColorEffect('--color-fill-primary'),
+  'fill-secondary': withColorEffect('--color-fill-secondary')
+}
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       textColor: {
         skin: {
-          base: 'rgb(var(--color-text-base))',
-          muted: 'rgb(var(--color-text-muted))',
-          inverted: 'rgb(var(--color-text-inverted))'
+          ...fillProps,
+          base: withColorEffect('--color-text-base'),
+          muted: withColorEffect('--color-text-muted'),
+          inverted: withColorEffect('--color-text-inverted')
         }
       },
       backgroundColor: {
         skin: {
-          fill: 'rgb(var(--color-fill))',
-          'fill-primary': 'rgb(var(--color-fill-primary))',
-          'fill-secondary': 'rgb(var(--color-fill-secondary))',
-          button: 'rgb(var(--color-button))',
-          'button-hover': 'rgb(var(--color-button-hover))'
+          ...fillProps,
+          button: withColorEffect('--color-button'),
+          'button-hover': withColorEffect('--color-button-hover')
+        }
+      },
+      borderColor: {
+        skin: {
+          ...fillProps
         }
       },
       animation: {
-        fade: 'fade 225ms ease-in-out',
+        'fade-in': 'fade-in 225ms ease-in-out',
         ripple: 'ripple 550ms ease-out',
         strokedrift: 'strokedrift 1.4s ease-in-out infinite'
       },
       keyframes: {
-        fade: {
+        'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' }
         },

@@ -17,7 +17,7 @@ interface ModalRootProps {
 const modal = tv({
   slots: {
     wrapper:
-      'fixed inset-0 z-20 flex animate-fade items-center justify-center bg-black bg-opacity-50 transition-[opacity] duration-[225ms] ease-in-out',
+      'fixed inset-0 z-20 flex animate-fade-in items-center justify-center bg-black bg-opacity-50 transition-[opacity] duration-[225ms] ease-in-out',
     content: 'flex flex-col bg-skin-fill text-skin-base'
   },
   variants: {

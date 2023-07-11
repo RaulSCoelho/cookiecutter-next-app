@@ -11,18 +11,19 @@ export interface ButtonProps extends ButtonBaseProps {
 const button = tv({
   base: 'rounded px-4 py-2 font-bold text-white focus:outline-none',
   variants: {
-    readOnly: {
-      false: 'bg-skin-button hover:bg-skin-button-hover'
+    variant: {
+      text: 'hover:bg-skin-button hover:bg-opacity-5',
+      contained: 'bg-skin-button hover:bg-skin-button-hover',
+      outlined: 'border-skin-fill-primary text-skin-fill-primary border hover:bg-skin-button hover:bg-opacity-5'
     }
-  },
-  defaultVariants: {
-    readOnly: false
   }
 })
 
-export function Button({ children, readOnly, className, ...rest }: ButtonProps) {
+export function Button({ children, variant = 'contained', loading, readOnly, className, ...rest }: ButtonProps) {
+  variant = variant === 'contained' || !(readOnly || loading) ? variant : 'contained'
+
   return (
-    <ButtonBase className={button({ readOnly, className })} {...rest}>
+    <ButtonBase className={button({ variant, className })} loading={loading} readOnly={readOnly} {...rest}>
       {children}
     </ButtonBase>
   )
