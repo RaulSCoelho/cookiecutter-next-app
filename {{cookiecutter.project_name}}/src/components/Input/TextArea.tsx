@@ -1,27 +1,28 @@
 import { TextareaHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
-type TextAreaBaseProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+interface TextAreaBaseProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name?: never
   label?: string
   wrapperClassName?: string
   register?: UseFormRegisterReturn<any>
   error?: string
 }
-type TextAreaLabledProps = Omit<TextAreaBaseProps, 'name' | 'register'> & {
+
+interface TextAreaLabledProps extends Omit<TextAreaBaseProps, 'name' | 'register'> {
   name: string
   register?: never
 }
+
 type TextAreaProps = TextAreaLabledProps | TextAreaBaseProps
 
-export function TextArea({ label, name, register, error, className, wrapperClassName, ...rest }: TextAreaProps) {
-  const textAreaClasses = classnames(
-    'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
-    className
-  )
+const textarea = tv({
+  base: 'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
+})
 
+export function TextArea({ label, name, register, error, className, wrapperClassName, ...rest }: TextAreaProps) {
   return (
     <div className={wrapperClassName}>
       {label && (
@@ -29,7 +30,7 @@ export function TextArea({ label, name, register, error, className, wrapperClass
           {label}
         </label>
       )}
-      <textarea className={textAreaClasses} {...(register || { name })} {...rest} />
+      <textarea className={textarea({ className })} {...(register || { name })} {...rest} />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   )

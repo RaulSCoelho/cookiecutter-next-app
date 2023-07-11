@@ -4,11 +4,11 @@ import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, SyntheticEvent, u
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { MdAttachFile as AttachFileIcon } from 'react-icons/md'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
 import { Snackbar } from '../Feedback/Snackbar'
 
-type FileBaseProps = InputHTMLAttributes<HTMLInputElement> & {
+interface FileBaseProps extends InputHTMLAttributes<HTMLInputElement> {
   text?: string
   name?: never
   wrapperClassName?: string
@@ -16,12 +16,18 @@ type FileBaseProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: string
   onChange?: never
 }
-type FileLabledProps = Omit<FileBaseProps, 'name' | 'register' | 'onChange'> & {
+
+interface FileLabledProps extends Omit<FileBaseProps, 'name' | 'register' | 'onChange'> {
   name: string
   register?: never
   onChange?: ChangeEventHandler<HTMLInputElement>
 }
+
 type FileProps = Omit<FileLabledProps | FileBaseProps, 'type'>
+
+const file = tv({
+  base: 'flex max-w-max cursor-pointer gap-1 rounded-lg bg-skin-button p-2 text-sm uppercase tracking-wide text-gray-100 shadow-lg hover:bg-skin-button-hover active:bg-skin-button'
+})
 
 export function File({ text, register, error, className, wrapperClassName, name, onChange, ...rest }: FileProps) {
   const [errorOpen, setErrorOpen] = useState(false)
@@ -55,15 +61,10 @@ export function File({ text, register, error, className, wrapperClassName, name,
     }
   }
 
-  const inputClasses = classnames(
-    'flex max-w-max cursor-pointer gap-1 rounded-lg bg-skin-button p-2 text-sm uppercase tracking-wide text-gray-100 shadow-lg hover:bg-skin-button-hover active:bg-skin-button',
-    className
-  )
-
   return (
     <>
       <div className={wrapperClassName}>
-        <label className={inputClasses}>
+        <label className={file({ className })}>
           <AttachFileIcon size={20} />
           <span>{text || 'File'}</span>
           <input

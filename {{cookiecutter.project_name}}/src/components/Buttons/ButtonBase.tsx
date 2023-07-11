@@ -2,7 +2,7 @@
 
 import { ButtonHTMLAttributes, CSSProperties, MouseEvent, ReactNode, useState } from 'react'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 import { v4 as uuid } from 'uuid'
 
 import { Ripple, RippleProps } from '../Ripple'
@@ -17,6 +17,30 @@ export interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement>
   disableRipple?: boolean
 }
 
+const button = tv({
+  slots: {
+    base: 'relative select-none overflow-hidden shadow',
+    spinner: 'absolute inset-0 z-[1] flex items-center justify-center rounded'
+  },
+  variants: {
+    readOnly: {
+      true: { base: 'bg-gray-400' }
+    },
+    shadowOnClick: {
+      true: { base: 'active:shadow-lg' }
+    },
+    loadingColored: {
+      true: { spinner: 'bg-inherit' },
+      false: { spinner: 'bg-gray-400' }
+    }
+  },
+  defaultVariants: {
+    loadingColored: false,
+    readOnly: false,
+    shadowOnClick: true
+  }
+})
+
 export function ButtonBase({
   children,
   loading,
@@ -30,6 +54,7 @@ export function ButtonBase({
   ...rest
 }: ButtonBaseProps) {
   const [ripples, setRipples] = useState<(RippleProps & { id: string })[]>([])
+  const { base, spinner } = button({ readOnly, loadingColored, shadowOnClick: !(readOnly || loading) })
 
   function addRipple(e: MouseEvent<HTMLButtonElement>) {
     const button = e.currentTarget as HTMLButtonElement
@@ -54,24 +79,11 @@ export function ButtonBase({
     onClick?.(e)
   }
 
-  const classes = classnames(
-    'relative select-none overflow-hidden shadow',
-    { 'active:shadow-lg': !(readOnly || loading) },
-    { 'bg-gray-400': readOnly },
-    className
-  )
-
-  const spinnerClasses = classnames(
-    'absolute inset-0 z-[1] flex items-center justify-center rounded',
-    { 'bg-gray-400': !loadingColored },
-    { 'bg-inherit': loadingColored }
-  )
-
   return (
-    <button onClick={handleClick} className={classes} disabled={readOnly || loading} type={type} {...rest}>
+    <button onClick={handleClick} className={base({ className })} disabled={readOnly || loading} type={type} {...rest}>
       {children}
       {loading && (
-        <div className={spinnerClasses}>
+        <div className={spinner()}>
           <Spinner className="p-1 opacity-20" color="black" />
         </div>
       )}

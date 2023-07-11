@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FaCheckCircle, FaInfoCircle, FaTimes, FaBan, FaExclamation } from 'react-icons/fa'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
 export interface SnackbarProps {
   open: boolean
@@ -14,39 +14,55 @@ export interface SnackbarProps {
   duration?: number
 }
 
-const positionClasses = {
-  'left-bottom': [{ left: '-100%' }, { left: '1rem' }, { bottom: '1rem' }],
-  'right-bottom': [{ right: '-100%' }, { right: '1rem' }, { bottom: '1rem' }],
-  'mid-bottom': [{ bottom: '-100%' }, { bottom: '1rem' }, { left: '50%', transform: 'translateX(-50%)' }],
-  'left-top': [{ left: '-100%' }, { left: '1rem' }, { top: '1rem' }],
-  'right-top': [{ right: '-100%' }, { right: '1rem' }, { top: '1rem' }],
-  'mid-top': [{ top: '-100%' }, { top: '1rem' }, { left: '50%', transform: 'translateX(-50%)' }]
-}
+const snackbar = tv({
+  base: 'fixed z-30 rounded-md p-4 shadow-md transition-[inset] duration-500 ease-in-out',
+  variants: {
+    opacity: {
+      0: 'opacity-0',
+      1: 'opacity-100'
+    },
+    color: {
+      success: 'bg-green-100 text-green-800',
+      error: 'bg-red-100 text-red-800',
+      alert: 'bg-yellow-100 text-yellow-800',
+      info: 'bg-blue-100 text-blue-800'
+    },
+    position: {
+      'left-bottom': '-left-full bottom-4',
+      'left-top': '-left-full top-4',
+      'right-bottom': '-right-full bottom-4',
+      'right-top': '-right-full top-4',
+      'mid-bottom': '-bottom-full left-1/2 -translate-x-1/2',
+      'mid-top': '-top-full left-1/2 -translate-x-1/2'
+    },
+    visible: { true: null, false: null }
+  },
+  defaultVariants: {
+    visible: false
+  },
+  compoundVariants: [
+    { visible: true, position: ['left-bottom', 'left-top'], class: 'left-4' },
+    { visible: true, position: ['right-bottom', 'right-top'], class: 'right-4' },
+    { visible: true, position: 'mid-bottom', class: 'bottom-4' },
+    { visible: true, position: 'mid-top', class: 'top-4' }
+  ]
+})
 
-const typeMap = {
-  success: { color: 'bg-green-100 text-green-800', icon: <FaCheckCircle className="text-green-500" /> },
-  error: { color: 'bg-red-100 text-red-800', icon: <FaBan className="text-red-500" /> },
-  alert: { color: 'bg-yellow-100 text-yellow-800', icon: <FaExclamation className="text-yellow-500" /> },
-  info: { color: 'bg-blue-100 text-blue-800', icon: <FaInfoCircle className="text-blue-500" /> }
+const iconMap = {
+  success: <FaCheckCircle className="text-green-500" />,
+  error: <FaBan className="text-red-500" />,
+  alert: <FaExclamation className="text-yellow-500" />,
+  info: <FaInfoCircle className="text-blue-500" />
 }
 
 export function Snackbar({ open, message, type, onClose, position = 'left-bottom', duration = 6 }: SnackbarProps) {
   const [isVisible, setIsVisible] = useState(open)
-  const [positionClass, setPositionClass] = useState({})
-  const { color, icon } = typeMap[type]
-  const style = { ...positionClass, opacity: open ? 1 : 0 }
-
   duration *= 1000
 
   const handleClose = useCallback(() => {
     setIsVisible(false)
     setTimeout(onClose, 500)
   }, [onClose])
-
-  useEffect(() => {
-    const [whenNotVisible, whenVisible, always] = positionClasses[position]
-    setPositionClass({ ...(isVisible ? whenVisible : whenNotVisible), ...always })
-  }, [isVisible, position])
 
   useEffect(() => {
     if (open) {
@@ -56,12 +72,13 @@ export function Snackbar({ open, message, type, onClose, position = 'left-bottom
     }
   }, [open, handleClose, duration])
 
-  const classes = classnames('fixed z-30 rounded-md p-4 shadow-md transition-[inset] duration-500 ease-in-out', color)
-
   return (
-    <div data-test="snackbar" style={style} className={classes}>
+    <div
+      data-test="snackbar"
+      className={snackbar({ position, color: type, visible: isVisible, opacity: open ? 1 : 0 })}
+    >
       <div className="flex items-center gap-3">
-        {icon}
+        {iconMap[type]}
         <p className="max-w-[250px] text-sm">{message}</p>
         <FaTimes className="cursor-pointer text-gray-500" onClick={handleClose} />
       </div>

@@ -11,7 +11,7 @@ interface ConfirmationModalProps {
 
 export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: ConfirmationModalProps) {
   return (
-    <Modal.Root open={open} onClickOutside={onCancel}>
+    <Modal.Root open={open} onClickOutside={onCancel} fullScreen={false}>
       <Modal.Header title={title} onClose={onCancel} />
       <Modal.Content>
         <p>{question}</p>

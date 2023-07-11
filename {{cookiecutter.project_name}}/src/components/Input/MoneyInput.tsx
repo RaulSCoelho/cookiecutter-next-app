@@ -3,9 +3,9 @@
 import { ChangeEvent, ChangeEventHandler, FocusEvent, FocusEventHandler, InputHTMLAttributes } from 'react'
 import { ChangeHandler, UseFormRegisterReturn } from 'react-hook-form'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
-type MoneyInputBaseProps = InputHTMLAttributes<HTMLInputElement> & {
+interface MoneyInputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -14,13 +14,19 @@ type MoneyInputBaseProps = InputHTMLAttributes<HTMLInputElement> & {
   onChange?: never
   onBlur?: never
 }
-type MoneyInputLabledProps = Omit<MoneyInputBaseProps, 'name' | 'register' | 'onChange' | 'onBlur'> & {
+
+interface MoneyInputLabledProps extends Omit<MoneyInputBaseProps, 'name' | 'register' | 'onChange' | 'onBlur'> {
   name: string
   register?: never
   onChange?: ChangeEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
 }
+
 type MoneyInputProps = Omit<MoneyInputLabledProps | MoneyInputBaseProps, 'type' | 'pattern'>
+
+const moneyInput = tv({
+  base: 'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
+})
 
 export function MoneyInput({
   label,
@@ -105,11 +111,6 @@ export function MoneyInput({
     }
   }
 
-  const inputClasses = classnames(
-    'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
-    className
-  )
-
   return (
     <div className={wrapperClassName}>
       {label && (
@@ -120,7 +121,7 @@ export function MoneyInput({
       <input
         type="text"
         pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-        className={inputClasses}
+        className={moneyInput({ className })}
         placeholder={placeholder || '$0.00'}
         inputMode="decimal"
         {...(!register && { onChange: formatCurrency, onBlur: formatCurrency })}

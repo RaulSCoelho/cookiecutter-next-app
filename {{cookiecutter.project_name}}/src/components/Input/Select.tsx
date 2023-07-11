@@ -1,9 +1,9 @@
 import { SelectHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
-type SelectBaseProps = SelectHTMLAttributes<HTMLSelectElement> & {
+interface SelectBaseProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -11,19 +11,18 @@ type SelectBaseProps = SelectHTMLAttributes<HTMLSelectElement> & {
   error?: string
 }
 
-type SelectLabeledProps = Omit<SelectBaseProps, 'name' | 'register'> & {
+interface SelectLabeledProps extends Omit<SelectBaseProps, 'name' | 'register'> {
   name: string
   register?: never
 }
 
 type SelectProps = SelectLabeledProps | SelectBaseProps
 
-export function Select({ label, name, register, error, className, wrapperClassName, children, ...rest }: SelectProps) {
-  const selectClasses = classnames(
-    'w-full cursor-pointer rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
-    className
-  )
+const select = tv({
+  base: 'w-full cursor-pointer rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
+})
 
+export function Select({ label, name, register, error, className, wrapperClassName, children, ...rest }: SelectProps) {
   return (
     <div className={wrapperClassName}>
       {label && (
@@ -31,7 +30,7 @@ export function Select({ label, name, register, error, className, wrapperClassNa
           {label}
         </label>
       )}
-      <select className={selectClasses} {...(register || { name })} {...rest}>
+      <select className={select({ className })} {...(register || { name })} {...rest}>
         {children}
       </select>
       {error && <p className="text-red-500">{error}</p>}
