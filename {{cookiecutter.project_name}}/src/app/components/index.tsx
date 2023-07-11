@@ -39,6 +39,12 @@ function Spinner() {
       <Button onClick={handleClick} loading={loading}>
         Click
       </Button>
+      <Button onClick={handleClick} loading={loading} variant="outlined">
+        Click
+      </Button>
+      <Button onClick={handleClick} loading={loading} variant="text">
+        Click
+      </Button>
     </Component>
   )
 }
@@ -123,7 +129,7 @@ function Component({ title, children }: { title: string; children: ReactNode }) 
   return (
     <div className="flex flex-col gap-1">
       <p className="text-center text-lg font-medium">{title}</p>
-      <div className="flex h-full w-full items-center justify-center">{children}</div>
+      <div className="flex h-full w-full items-center justify-center gap-1">{children}</div>
     </div>
   )
 }

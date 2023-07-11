@@ -11,7 +11,6 @@ import { Spinner } from '../Spinner'
 export interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   loading?: boolean
-  loadingColored?: boolean
   readOnly?: boolean
   rippleColor?: CSSProperties['color']
   disableRipple?: boolean
@@ -21,30 +20,12 @@ const button = tv({
   slots: {
     base: 'relative select-none overflow-hidden shadow',
     spinner: 'absolute inset-0 z-[1] flex items-center justify-center rounded'
-  },
-  variants: {
-    readOnly: {
-      true: { base: 'bg-gray-400' }
-    },
-    shadowOnClick: {
-      true: { base: 'active:shadow-lg' }
-    },
-    loadingColored: {
-      true: { spinner: 'bg-inherit' },
-      false: { spinner: 'bg-gray-400' }
-    }
-  },
-  defaultVariants: {
-    loadingColored: false,
-    readOnly: false,
-    shadowOnClick: true
   }
 })
 
 export function ButtonBase({
   children,
   loading,
-  loadingColored,
   readOnly,
   rippleColor,
   disableRipple,
@@ -54,7 +35,7 @@ export function ButtonBase({
   ...rest
 }: ButtonBaseProps) {
   const [ripples, setRipples] = useState<(RippleProps & { id: string })[]>([])
-  const { base, spinner } = button({ readOnly, loadingColored, shadowOnClick: !(readOnly || loading) })
+  const { base, spinner } = button()
 
   function addRipple(e: MouseEvent<HTMLButtonElement>) {
     const button = e.currentTarget as HTMLButtonElement

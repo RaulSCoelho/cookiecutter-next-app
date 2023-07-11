@@ -59,7 +59,7 @@ export function Users({ users }: UsersProps) {
           <Input label="name" register={register('name')} error={errors.name?.message} />
           <Input label="email" register={register('email')} error={errors.email?.message} />
         </div>
-        <Button type="submit" className="mt-4" loading={isLoading} loadingColored>
+        <Button type="submit" className="mt-4" loading={isLoading} readOnly={isLoading}>
           Create User
         </Button>
       </form>
