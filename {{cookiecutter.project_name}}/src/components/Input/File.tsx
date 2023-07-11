@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  SyntheticEvent,
-  useState
-} from 'react'
+import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, SyntheticEvent, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { MdAttachFile as AttachFileIcon } from 'react-icons/md'
 
@@ -15,7 +8,7 @@ import classnames from 'classnames'
 
 import { Snackbar } from '../Feedback/Snackbar'
 
-type FileBaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+type FileBaseProps = InputHTMLAttributes<HTMLInputElement> & {
   text?: string
   name?: never
   wrapperClassName?: string
@@ -30,7 +23,7 @@ type FileLabledProps = Omit<FileBaseProps, 'name' | 'register' | 'onChange'> & {
 }
 type FileProps = Omit<FileLabledProps | FileBaseProps, 'type'>
 
-export function File({ text, register, error, className, wrapperClassName, name, onChange, ...props }: FileProps) {
+export function File({ text, register, error, className, wrapperClassName, name, onChange, ...rest }: FileProps) {
   const [errorOpen, setErrorOpen] = useState(false)
 
   function handleCloseError(event?: SyntheticEvent | Event, reason?: string) {
@@ -78,7 +71,7 @@ export function File({ text, register, error, className, wrapperClassName, name,
             className="hidden"
             {...(!register && { onChange: handleChange })}
             {...(register || { name })}
-            {...props}
+            {...rest}
           />
         </label>
         {error && <p className="text-red-500">{error}</p>}

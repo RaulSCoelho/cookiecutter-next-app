@@ -7,11 +7,14 @@ import { ConfirmationModal } from '@/components/Feedback/ConfirmationModal'
 import { Snackbar, SnackbarProps } from '@/components/Feedback/Snackbar'
 import { Select } from '@/components/Input/Select'
 import { Modal } from '@/components/Modal'
+import { ModalAction } from '@/components/Modal/ModalAction'
 
 export function Components() {
   return (
     <div className="p-5">
-      <h1 className="pb-4 text-center text-2xl font-medium">Some components of this template</h1>
+      <h1 data-test="h1Title" className="pb-4 text-center text-2xl font-medium">
+        Some components of this template
+      </h1>
       <div className="flex flex-wrap justify-center gap-10">
         <Spinner />
         <Modals />
@@ -45,41 +48,31 @@ function Modals() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
   const tvShows = ['Lucifer', 'Stranger Things', 'The Witcher', 'Daredevil', 'Peaky Blinders']
 
-  function openModal() {
-    setIsModalOpen(true)
-  }
-
   function closeModal() {
     setIsModalOpen(false)
-  }
-
-  function openConfirmModal() {
-    setIsConfirmModalOpen(true)
   }
 
   function closeConfirmModal() {
     setIsConfirmModalOpen(false)
   }
 
-  function modalActions(onClose: () => void) {
-    return (
-      <>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={openConfirmModal}>Confirm</Button>
-      </>
-    )
-  }
-
   return (
     <Component title="Modal">
-      <Button onClick={openModal}>Open Modal</Button>
-      <Modal open={isModalOpen} title="TV Shows" actions={modalActions} onClose={closeModal} fixedSize>
-        <ul>
-          {tvShows.map(ts => (
-            <li key={ts}>{ts}</li>
-          ))}
-        </ul>
-      </Modal>
+      <Button onClick={() => setIsModalOpen(prev => !prev)}>Open Modal</Button>
+      <Modal.Root open={isModalOpen} onClickOutside={closeModal} size="fixed-sm">
+        <Modal.Header title="TV Shows" onClose={closeModal} />
+        <Modal.Content>
+          <ul>
+            {tvShows.map(ts => (
+              <li key={ts}>{ts}</li>
+            ))}
+          </ul>
+        </Modal.Content>
+        <Modal.Actions>
+          <ModalAction text="Cancel" onClick={closeModal} />
+          <ModalAction text="Confirm" onClick={() => setIsConfirmModalOpen(true)} />
+        </Modal.Actions>
+      </Modal.Root>
       <ConfirmationModal
         open={isConfirmModalOpen}
         title="Confirm Modal"

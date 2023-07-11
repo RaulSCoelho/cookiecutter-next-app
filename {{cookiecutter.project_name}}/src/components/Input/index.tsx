@@ -1,9 +1,9 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 
 import classnames from 'classnames'
 
-type InputBaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+type InputBaseProps = InputHTMLAttributes<HTMLInputElement> & {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -16,7 +16,7 @@ type InputLabledProps = Omit<InputBaseProps, 'name' | 'register'> & {
 }
 type InputProps = InputLabledProps | InputBaseProps
 
-export function Input({ label, name, register, error, className, wrapperClassName, type, ...props }: InputProps) {
+export function Input({ label, name, register, error, className, wrapperClassName, type, ...rest }: InputProps) {
   const inputClasses = classnames(
     'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
     className
@@ -29,7 +29,7 @@ export function Input({ label, name, register, error, className, wrapperClassNam
           {label}
         </label>
       )}
-      <input type={type || 'text'} className={inputClasses} {...(register || { name })} {...props} />
+      <input type={type || 'text'} className={inputClasses} {...(register || { name })} {...rest} />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   )

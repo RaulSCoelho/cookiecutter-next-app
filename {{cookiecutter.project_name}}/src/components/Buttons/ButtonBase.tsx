@@ -1,6 +1,6 @@
 'use client'
 
-import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, MouseEvent, ReactNode, useState } from 'react'
+import { ButtonHTMLAttributes, CSSProperties, MouseEvent, ReactNode, useState } from 'react'
 
 import classnames from 'classnames'
 import { v4 as uuid } from 'uuid'
@@ -8,8 +8,7 @@ import { v4 as uuid } from 'uuid'
 import { Ripple, RippleProps } from '../Ripple'
 import { Spinner } from '../Spinner'
 
-export interface ButtonBaseProps
-  extends Omit<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'ref'> {
+export interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   loading?: boolean
   loadingColored?: boolean
@@ -28,7 +27,7 @@ export function ButtonBase({
   type = 'button',
   className,
   onClick,
-  ...props
+  ...rest
 }: ButtonBaseProps) {
   const [ripples, setRipples] = useState<(RippleProps & { id: string })[]>([])
 
@@ -69,15 +68,15 @@ export function ButtonBase({
   )
 
   return (
-    <button onClick={handleClick} className={classes} disabled={readOnly || loading} type={type} {...props}>
+    <button onClick={handleClick} className={classes} disabled={readOnly || loading} type={type} {...rest}>
       {children}
       {loading && (
         <div className={spinnerClasses}>
           <Spinner className="p-1 opacity-20" color="black" />
         </div>
       )}
-      {ripples.map(({ id, ...props }) => (
-        <Ripple key={id} {...props} />
+      {ripples.map(({ id, ...rest }) => (
+        <Ripple key={id} {...rest} />
       ))}
     </button>
   )

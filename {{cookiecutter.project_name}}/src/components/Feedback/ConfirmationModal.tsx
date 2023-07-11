@@ -1,7 +1,7 @@
-import { Button } from '../Buttons'
 import { Modal } from '../Modal'
+import { ModalAction } from '../Modal/ModalAction'
 
-interface Props {
+interface ConfirmationModalProps {
   open: boolean
   title: string
   question: string
@@ -9,24 +9,17 @@ interface Props {
   onCancel: () => void
 }
 
-export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: Props) {
-  function ModalActions(onClose: () => void) {
-    function handleConfirm() {
-      onClose()
-      onConfirm()
-    }
-
-    return (
-      <>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleConfirm}>Confirm</Button>
-      </>
-    )
-  }
-
+export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: ConfirmationModalProps) {
   return (
-    <Modal open={open} title={title} actions={ModalActions} onClose={onCancel} fullScreen={false}>
-      <p>{question}</p>
-    </Modal>
+    <Modal.Root open={open} onClickOutside={onCancel}>
+      <Modal.Header title={title} onClose={onCancel} />
+      <Modal.Content>
+        <p>{question}</p>
+      </Modal.Content>
+      <Modal.Actions>
+        <ModalAction text="Cancel" onClick={onCancel} />
+        <ModalAction text="Confirm" onClick={onConfirm} />
+      </Modal.Actions>
+    </Modal.Root>
   )
 }

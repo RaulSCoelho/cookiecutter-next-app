@@ -1,10 +1,10 @@
 import { CSSProperties } from 'react'
 
-interface Props {
+interface StarsProps {
   bottom: string
 }
 
-export function Stars({ bottom }: Props) {
+export function Stars({ bottom }: StarsProps) {
   const style: CSSProperties = { bottom }
 
   return (

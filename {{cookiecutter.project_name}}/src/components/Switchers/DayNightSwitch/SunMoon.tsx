@@ -15,7 +15,7 @@ interface Positions {
   }
 }
 
-interface Props {
+interface SunMoonProps {
   side: Side
   size: string
   onClick?: (side: Side) => void
@@ -34,7 +34,7 @@ function getPositions(size: string) {
   }
 }
 
-export function SunMoon({ side, size, onClick }: Props) {
+export function SunMoon({ side, size, onClick }: SunMoonProps) {
   const innerSunMoonStyle: CSSProperties = { boxShadow: 'inset 0.5px 0.8px 1.5px 0.8px rgba(0, 0, 0, 0.6)' }
   const [positions, setPositions] = useState<Positions>(getPositions(size))
 

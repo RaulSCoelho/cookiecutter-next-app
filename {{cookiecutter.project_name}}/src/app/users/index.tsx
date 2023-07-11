@@ -14,11 +14,11 @@ import { User } from '@prisma/client'
 
 import Loading from '../loading'
 
-interface Props {
+interface UsersProps {
   users: User[]
 }
 
-export function Users({ users }: Props) {
+export function Users({ users }: UsersProps) {
   const {
     register,
     handleSubmit,

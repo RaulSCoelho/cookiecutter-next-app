@@ -1,35 +1,16 @@
 import { ReactNode } from 'react'
 
-import classnames from 'classnames'
+import { tv } from 'tailwind-variants'
 
-import { CloseButton } from '../Buttons/CloseButton'
-
-export interface ModalContentProps {
+interface ModalContentProps {
   children: ReactNode
-  onClose: () => void
-  title?: string | ReactNode | any
-  actions?: ReactNode | ((onClose: () => void) => ReactNode)
   className?: string
 }
 
-export function ModalContent({ children, onClose, title, actions, className }: ModalContentProps) {
-  const contentClasses = classnames(
-    'grow overflow-auto px-6 pb-5 pt-0 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]',
-    className
-  )
+const modalContent = tv({
+  base: 'grow overflow-auto px-6 pb-5 pt-0 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]'
+})
 
-  return (
-    <>
-      <div className="flex justify-between gap-4 p-4 pl-6 text-xl">
-        <div className="grow">{title}</div>
-        <div>
-          <CloseButton onClick={onClose} />
-        </div>
-      </div>
-      <div className={contentClasses}>{children}</div>
-      {actions && (
-        <div className="flex justify-end gap-2 p-2">{typeof actions === 'function' ? actions(onClose) : actions}</div>
-      )}
-    </>
-  )
+export function ModalContent({ children, className }: ModalContentProps) {
+  return <div className={modalContent({ className })}>{children}</div>
 }

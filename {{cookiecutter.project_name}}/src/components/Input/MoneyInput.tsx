@@ -1,18 +1,11 @@
 'use client'
 
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  DetailedHTMLProps,
-  FocusEvent,
-  FocusEventHandler,
-  InputHTMLAttributes
-} from 'react'
+import { ChangeEvent, ChangeEventHandler, FocusEvent, FocusEventHandler, InputHTMLAttributes } from 'react'
 import { ChangeHandler, UseFormRegisterReturn } from 'react-hook-form'
 
 import classnames from 'classnames'
 
-type MoneyInputBaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+type MoneyInputBaseProps = InputHTMLAttributes<HTMLInputElement> & {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -39,7 +32,7 @@ export function MoneyInput({
   placeholder,
   onChange,
   onBlur,
-  ...props
+  ...rest
 }: MoneyInputProps) {
   const formatNumber = (numberString: string) => {
     // Format number 1000000 to 1,234,567
@@ -132,7 +125,7 @@ export function MoneyInput({
         inputMode="decimal"
         {...(!register && { onChange: formatCurrency, onBlur: formatCurrency })}
         {...(register || { name })}
-        {...props}
+        {...rest}
       />
       {error && <p className="text-red-500">{error}</p>}
     </div>

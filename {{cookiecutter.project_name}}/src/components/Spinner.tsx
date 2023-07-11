@@ -2,13 +2,13 @@ import { CSSProperties } from 'react'
 
 import classnames from 'classnames'
 
-interface Props {
+interface SpinnerProps {
   size?: number
   color?: CSSProperties['color']
   className?: string
 }
 
-export function Spinner({ size = 2.5, color = 'inherit', className }: Props) {
+export function Spinner({ size = 2.5, color = 'inherit', className }: SpinnerProps) {
   const style: CSSProperties = {
     width: `${size}rem`,
     height: `${size}rem`,

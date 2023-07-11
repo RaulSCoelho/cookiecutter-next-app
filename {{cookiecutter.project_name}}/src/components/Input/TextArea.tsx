@@ -1,9 +1,9 @@
-import { DetailedHTMLProps, TextareaHTMLAttributes } from 'react'
+import { TextareaHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 
 import classnames from 'classnames'
 
-type TextAreaBaseProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> & {
+type TextAreaBaseProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -16,7 +16,7 @@ type TextAreaLabledProps = Omit<TextAreaBaseProps, 'name' | 'register'> & {
 }
 type TextAreaProps = TextAreaLabledProps | TextAreaBaseProps
 
-export function TextArea({ label, name, register, error, className, wrapperClassName, ...props }: TextAreaProps) {
+export function TextArea({ label, name, register, error, className, wrapperClassName, ...rest }: TextAreaProps) {
   const textAreaClasses = classnames(
     'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
     className
@@ -29,7 +29,7 @@ export function TextArea({ label, name, register, error, className, wrapperClass
           {label}
         </label>
       )}
-      <textarea className={textAreaClasses} {...(register || { name })} {...props} />
+      <textarea className={textAreaClasses} {...(register || { name })} {...rest} />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   )

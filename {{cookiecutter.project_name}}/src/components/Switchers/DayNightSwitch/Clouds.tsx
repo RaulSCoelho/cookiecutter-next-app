@@ -1,10 +1,10 @@
 import { CSSProperties } from 'react'
 
-interface Props {
+interface CloudsProps {
   bottom: string
 }
 
-export function Clouds({ bottom }: Props) {
+export function Clouds({ bottom }: CloudsProps) {
   const style: CSSProperties = { bottom }
 
   return (

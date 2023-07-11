@@ -59,7 +59,7 @@ export function Snackbar({ open, message, type, onClose, position = 'left-bottom
   const classes = classnames('fixed z-30 rounded-md p-4 shadow-md transition-[inset] duration-500 ease-in-out', color)
 
   return (
-    <div style={style} className={classes}>
+    <div data-test="snackbar" style={style} className={classes}>
       <div className="flex items-center gap-3">
         {icon}
         <p className="max-w-[250px] text-sm">{message}</p>

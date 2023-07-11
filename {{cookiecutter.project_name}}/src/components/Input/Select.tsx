@@ -1,9 +1,9 @@
-import { DetailedHTMLProps, SelectHTMLAttributes } from 'react'
+import { SelectHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
 
 import classnames from 'classnames'
 
-type SelectBaseProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
+type SelectBaseProps = SelectHTMLAttributes<HTMLSelectElement> & {
   name?: never
   label?: string
   wrapperClassName?: string
@@ -18,7 +18,7 @@ type SelectLabeledProps = Omit<SelectBaseProps, 'name' | 'register'> & {
 
 type SelectProps = SelectLabeledProps | SelectBaseProps
 
-export function Select({ label, name, register, error, className, wrapperClassName, children, ...props }: SelectProps) {
+export function Select({ label, name, register, error, className, wrapperClassName, children, ...rest }: SelectProps) {
   const selectClasses = classnames(
     'w-full cursor-pointer rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none',
     className
@@ -31,7 +31,7 @@ export function Select({ label, name, register, error, className, wrapperClassNa
           {label}
         </label>
       )}
-      <select className={selectClasses} {...(register || { name })} {...props}>
+      <select className={selectClasses} {...(register || { name })} {...rest}>
         {children}
       </select>
       {error && <p className="text-red-500">{error}</p>}
