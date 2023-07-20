@@ -16,7 +16,10 @@ export const signUpSchema = z
   })
 
 export const signInSchema = z.object({
-  email: z.string().nonempty('Please enter an email address.').min(6, 'Email address must be at least 6 characters.'),
+  login: z
+    .string()
+    .nonempty('Please enter a username or email address.')
+    .min(6, 'Username or email address must be at least 6 characters.'),
   password: z
     .string()
     .nonempty('Please enter a password.')

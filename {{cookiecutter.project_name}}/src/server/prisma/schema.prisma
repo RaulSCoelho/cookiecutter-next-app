@@ -9,7 +9,16 @@ datasource db {
 
 model User {
   id       String  @id {{ '@default(auto()) @map("_id") @db.ObjectId' if cookiecutter.data_base == 'mongodb' else '@default(uuid())' }}
-  email    String  @unique
-  name     String?
-  imageUrl String?
+  username    String    @unique
+  role        Role      @default(USER)
+  password    String
+  email       String?   @unique
+  phoneNumber String?   @unique
+  name        String?
+  birthDate   DateTime?
+}
+
+enum Role {
+  USER
+  ADMIN
 }

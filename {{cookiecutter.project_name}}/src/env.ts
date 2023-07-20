@@ -1,13 +1,18 @@
 import { z } from 'zod'
 
 const server = z.object({
-  DATABASE_URL: z.string()
+  DATABASE_URL: z.string(),
+  TOKEN_SECRET: z.string()
 })
 
-const client = z.object({})
+const client = z.object({
+  NEXT_PUBLIC_HOST: z.string()
+})
 
 const processEnv = {
-  DATABASE_URL: process.env.DATABASE_URL
+  DATABASE_URL: process.env.DATABASE_URL,
+  TOKEN_SECRET: process.env.TOKEN_SECRET,
+  NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST
 }
 
 // Don't touch the part below

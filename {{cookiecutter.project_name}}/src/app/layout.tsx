@@ -2,6 +2,7 @@ import '../styles/index.css'
 import { ReactNode } from 'react'
 
 import { ThemesProvider } from '@/hooks/useTheme'
+import { UserProvider } from '@/hooks/useUser'
 import { Inter } from 'next/font/google'
 
 import { Header } from './header'
@@ -21,12 +22,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${inter.className} h-full scroll-smooth antialiased`}>
       <body className="bg-skin-fill text-skin-base" suppressHydrationWarning>
         <ThemesProvider>
-          <div className="h-screen scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
-            <Header />
-            <div className="h-full overflow-auto p-4 pt-14 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b] sm:p-14">
-              {children}
+          <UserProvider>
+            <div className="h-screen scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
+              <Header />
+              <div className="h-full overflow-auto p-4 pt-14 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b] sm:p-14">
+                {children}
+              </div>
             </div>
-          </div>
+          </UserProvider>
         </ThemesProvider>
       </body>
     </html>
