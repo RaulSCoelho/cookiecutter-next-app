@@ -3,7 +3,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
 import { api } from '@/services/http/axios'
-import { SignInRequest } from '@/types/auth'
+import { SignInRequest } from '@/types/user'
 import { User } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
@@ -56,16 +56,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(false)
 
     if (error) {
-      return { error }
+      return error
     }
 
-    setUser(data.user)
-    setCookie(undefined, 'accessToken', data.accessToken, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 30
-    })
+    if (data) {
+      setUser(data.user)
+      setCookie(undefined, 'accessToken', data.accessToken, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30
+      })
 
-    api.defaults.headers.Authorization = `Bearer ${data.accessToken}`
+      api.defaults.headers.Authorization = `Bearer ${data.accessToken}`
+    }
 
     push(returnUrl)
     setReturnUrl('/')

@@ -21,7 +21,7 @@ class UsersApi {
       return { user }
     } catch (error: any) {
       if (error?.code === 'P2002') {
-        return { error: new Error('User with this email address already exists!') }
+        return { error: new Error('User with this username already exists!') }
       }
       return { error }
     }

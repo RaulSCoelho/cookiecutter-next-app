@@ -5,7 +5,7 @@ export async function privateRoutesMiddleware(req: NextRequest) {
   try {
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
-      throw new Error('No token was passed')
+      throw new Error('Unauthorized')
     }
 
     const token = getTokenFromHeader(authHeader)

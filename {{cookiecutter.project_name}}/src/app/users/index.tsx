@@ -34,7 +34,7 @@ export function Users({ users }: UsersProps) {
     const { data, error } = await useAxios.post<User>('api/users', user)
     if (error) {
       setError(error.error)
-    } else {
+    } else if (data) {
       setUserList(prev => [...prev, data])
     }
     setIsLoading(false)

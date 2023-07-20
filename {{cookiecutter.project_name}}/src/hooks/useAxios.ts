@@ -9,7 +9,7 @@ export const useAxios = {
 }
 
 interface BaseResponse<T> {
-  data: T
+  data?: T
   error?: any
   status: number
   ok: boolean
@@ -24,7 +24,7 @@ async function base<T>(request: Promise<AxiosResponse<any, any>>): Promise<BaseR
     let error = err.response?.data || err.message || 'Something went wrong'
     let status = err.response?.status || 400
 
-    return { data: {} as T, error, status, ok: false }
+    return { error, status, ok: false }
   }
 }
 
