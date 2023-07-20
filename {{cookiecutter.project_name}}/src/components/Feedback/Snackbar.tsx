@@ -9,7 +9,7 @@ export interface SnackbarProps {
   open: boolean
   message: string
   type: 'success' | 'error' | 'alert' | 'info'
-  onClose: () => void
+  onClose(): void
   position?: 'left-bottom' | 'right-bottom' | 'mid-bottom' | 'left-top' | 'right-top' | 'mid-top'
   duration?: number
 }

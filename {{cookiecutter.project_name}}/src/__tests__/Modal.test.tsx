@@ -1,5 +1,4 @@
 import { Modal } from '@/components/Modal'
-import { ModalAction } from '@/components/Modal/ModalAction'
 import { render, fireEvent } from '@testing-library/react'
 
 import { resizeScreenSize } from '../../jest.setup'
@@ -13,8 +12,8 @@ describe('Modal Component', () => {
         <Modal.Header onClose={onCloseMock} />
         <Modal.Content>Modal</Modal.Content>
         <Modal.Actions>
-          <ModalAction text="Close" onClick={onCloseMock} />
-          <ModalAction text="Submit" onClick={onCloseMock} />
+          <Modal.Action text="Close" onClick={onCloseMock} />
+          <Modal.Action text="Submit" onClick={onCloseMock} />
         </Modal.Actions>
       </Modal.Root>
     )

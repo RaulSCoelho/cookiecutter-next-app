@@ -7,7 +7,6 @@ import { ConfirmationModal } from '@/components/Feedback/ConfirmationModal'
 import { Snackbar, SnackbarProps } from '@/components/Feedback/Snackbar'
 import { Select } from '@/components/Input/Select'
 import { Modal } from '@/components/Modal'
-import { ModalAction } from '@/components/Modal/ModalAction'
 
 export function Components() {
   return (
@@ -75,8 +74,8 @@ function Modals() {
           </ul>
         </Modal.Content>
         <Modal.Actions>
-          <ModalAction text="Cancel" onClick={closeModal} />
-          <ModalAction text="Confirm" onClick={() => setIsConfirmModalOpen(true)} />
+          <Modal.Action text="Cancel" onClick={closeModal} />
+          <Modal.Action text="Confirm" onClick={() => setIsConfirmModalOpen(true)} />
         </Modal.Actions>
       </Modal.Root>
       <ConfirmationModal

@@ -10,8 +10,8 @@ interface ModalRootProps {
   open: boolean
   size?: 'sm' | 'md' | 'lg' | 'fixed-sm' | 'fixed-md' | 'fixed-lg'
   fullScreen?: boolean
-  onClickOutside?: () => void
-  onFormSubmit?: () => void
+  onClickOutside?(): void
+  onFormSubmit?(): void
 }
 
 const modal = tv({
@@ -29,8 +29,8 @@ const modal = tv({
       sm: { content: 'max-w-[600px]' },
       md: { content: 'max-w-[1000px]' },
       lg: { content: 'max-w-[calc(100%-64px)]' },
-      'fixed-sm': { content: 'w-[600px]' },
-      'fixed-md': { content: 'w-[1000px]' },
+      'fixed-sm': { content: 'w-[600px] max-w-[calc(100%-64px)]' },
+      'fixed-md': { content: 'w-[1000px] max-w-[calc(100%-64px)]' },
       'fixed-lg': { content: 'w-[calc(100%-64px)]' }
     },
     fullScreen: {
@@ -65,7 +65,7 @@ export function ModalRoot({
 
   function handleClickOutsideModal(e: MouseEvent<HTMLDivElement>) {
     const modalBg = e.currentTarget as HTMLDivElement
-    const modal = modalBg.firstChild as HTMLElement
+    const modal = modalBg.querySelector('#modalContent') as HTMLElement
     const target = e.target as HTMLDivElement
 
     if (!modal.contains(target) && modalBg.style.display !== 'none') {
@@ -77,11 +77,13 @@ export function ModalRoot({
   return (
     <div data-test="modal" className={wrapper()} onClick={handleClickOutsideModal}>
       {onFormSubmit ? (
-        <form className={content()} onSubmit={onFormSubmit}>
+        <form id="modalContent" className={content()} onSubmit={onFormSubmit}>
           {children}
         </form>
       ) : (
-        <div className={content()}>{children}</div>
+        <div id="modalContent" className={content()}>
+          {children}
+        </div>
       )}
     </div>
   )

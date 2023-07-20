@@ -4,7 +4,7 @@ import { IconButton } from '../Buttons/IconButton'
 
 interface ModalHeaderProps {
   title?: string
-  onClose: () => void
+  onClose(): void
 }
 
 export function ModalHeader({ title, onClose }: ModalHeaderProps) {

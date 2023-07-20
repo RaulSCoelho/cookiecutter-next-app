@@ -56,8 +56,8 @@ export function Users({ users }: UsersProps) {
       <Snackbar open={!!error} message={error} type="error" onClose={() => setError('')} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Input label="name" register={register('name')} error={errors.name?.message} />
-          <Input label="email" register={register('email')} error={errors.email?.message} />
+          <Input label="name" error={errors.name?.message} {...register('name')} />
+          <Input label="email" error={errors.email?.message} {...register('email')} />
         </div>
         <Button type="submit" className="mt-4" loading={isLoading} readOnly={isLoading}>
           Create User

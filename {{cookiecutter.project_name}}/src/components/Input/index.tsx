@@ -1,37 +1,30 @@
-import { InputHTMLAttributes } from 'react'
-import { UseFormRegisterReturn } from 'react-hook-form/dist/types'
+import React, { InputHTMLAttributes } from 'react'
 
 import { tv } from 'tailwind-variants'
 
-interface InputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
-  name?: never
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  wrapperClassName?: string
-  register?: UseFormRegisterReturn<any>
   error?: string
+  wrapperClassName?: string
 }
-
-interface InputLabledProps extends Omit<InputBaseProps, 'name' | 'register'> {
-  name: string
-  register?: never
-}
-
-export type InputProps = InputLabledProps | InputBaseProps
 
 const input = tv({
   base: 'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
 })
 
-export function Input({ label, name, register, error, className, wrapperClassName, type, ...rest }: InputProps) {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
+  { label, error, type, wrapperClassName, className, ...rest },
+  ref
+) {
   return (
     <div className={wrapperClassName}>
       {label && (
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={register?.name || name}>
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
           {label}
         </label>
       )}
-      <input type={type || 'text'} className={input({ className })} {...(register || { name })} {...rest} />
+      <input ref={ref} type={type || 'text'} className={input({ className })} {...rest} />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   )
-}
+})

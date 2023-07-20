@@ -1,51 +1,29 @@
 'use client'
 
-import { ChangeEvent, ChangeEventHandler, FocusEvent, FocusEventHandler, InputHTMLAttributes } from 'react'
-import { ChangeHandler, UseFormRegisterReturn } from 'react-hook-form'
+import { ChangeEvent, FocusEvent, InputHTMLAttributes, forwardRef } from 'react'
 
 import { tv } from 'tailwind-variants'
 
-interface MoneyInputBaseProps extends InputHTMLAttributes<HTMLInputElement> {
-  name?: never
+interface MoneyInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'pattern'> {
   label?: string
-  wrapperClassName?: string
-  register?: UseFormRegisterReturn<any>
   error?: string
-  onChange?: never
-  onBlur?: never
+  wrapperClassName?: string
 }
-
-interface MoneyInputLabledProps extends Omit<MoneyInputBaseProps, 'name' | 'register' | 'onChange' | 'onBlur'> {
-  name: string
-  register?: never
-  onChange?: ChangeEventHandler<HTMLInputElement>
-  onBlur?: FocusEventHandler<HTMLInputElement>
-}
-
-type MoneyInputProps = Omit<MoneyInputLabledProps | MoneyInputBaseProps, 'type' | 'pattern'>
 
 const moneyInput = tv({
   base: 'w-full rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
 })
 
-export function MoneyInput({
-  label,
-  name,
-  register,
-  error,
-  className,
-  wrapperClassName,
-  placeholder,
-  onChange,
-  onBlur,
-  ...rest
-}: MoneyInputProps) {
+export const MoneyInput = forwardRef<HTMLInputElement, MoneyInputProps>(function MoneyInput(
+  { label, error, wrapperClassName, className, onChange, onBlur, placeholder = '$0.00', ...rest },
+  ref
+) {
   const formatNumber = (numberString: string) => {
     // Format number 1000000 to 1,234,567
     return numberString.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  const formatCurrency = (event: Parameters<ChangeHandler>[0]) => {
+  const formatCurrency = (event: any) => {
     const inputElement = event.target as HTMLInputElement
     let inputValue = inputElement.value
 
@@ -93,42 +71,32 @@ export function MoneyInput({
     // Send the updated string to the input
     inputElement.value = inputValue
 
-    onChange?.(event as ChangeEvent<HTMLInputElement>)
-    if (event.type === 'blur') onBlur?.(event as FocusEvent<HTMLInputElement>)
-  }
-
-  if (register) {
-    const originalOnChange = register.onChange
-    const originalOnBlur = register.onBlur
-
-    register.onChange = e => {
-      formatCurrency(e)
-      return originalOnChange(e)
-    }
-    register.onBlur = e => {
-      formatCurrency(e)
-      return originalOnBlur(e)
+    if (event.type === 'blur') {
+      onBlur?.(event as FocusEvent<HTMLInputElement>)
+    } else {
+      onChange?.(event as ChangeEvent<HTMLInputElement>)
     }
   }
 
   return (
     <div className={wrapperClassName}>
       {label && (
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={register?.name || name}>
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
           {label}
         </label>
       )}
       <input
+        ref={ref}
         type="text"
+        inputMode="decimal"
         pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
         className={moneyInput({ className })}
-        placeholder={placeholder || '$0.00'}
-        inputMode="decimal"
-        {...(!register && { onChange: formatCurrency, onBlur: formatCurrency })}
-        {...(register || { name })}
+        placeholder={placeholder}
+        onChange={formatCurrency}
+        onBlur={formatCurrency}
         {...rest}
       />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   )
-}
+})

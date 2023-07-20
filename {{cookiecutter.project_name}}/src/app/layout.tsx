@@ -23,7 +23,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemesProvider>
           <div className="h-screen scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
             <Header />
-            <div className="pt-28 sm:px-14 sm:pt-14">{children}</div>
+            <div className="h-full overflow-auto p-4 pt-14 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b] sm:p-14">
+              {children}
+            </div>
           </div>
         </ThemesProvider>
       </body>

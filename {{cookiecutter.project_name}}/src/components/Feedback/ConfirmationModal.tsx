@@ -1,12 +1,11 @@
 import { Modal } from '../Modal'
-import { ModalAction } from '../Modal/ModalAction'
 
 interface ConfirmationModalProps {
   open: boolean
   title: string
   question: string
-  onConfirm: () => void
-  onCancel: () => void
+  onConfirm(): void
+  onCancel(): void
 }
 
 export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: ConfirmationModalProps) {
@@ -17,8 +16,8 @@ export function ConfirmationModal({ open, title, question, onConfirm, onCancel }
         <p>{question}</p>
       </Modal.Content>
       <Modal.Actions>
-        <ModalAction text="Cancel" onClick={onCancel} />
-        <ModalAction text="Confirm" onClick={onConfirm} />
+        <Modal.Action text="Cancel" onClick={onCancel} />
+        <Modal.Action text="Confirm" onClick={onConfirm} />
       </Modal.Actions>
     </Modal.Root>
   )

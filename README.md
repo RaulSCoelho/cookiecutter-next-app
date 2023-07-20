@@ -68,11 +68,9 @@ npm test:coverage
 After completing the construction of your schemas, execute the following command to generate the necessary artifacts:
 
 ```bash
-npx prisma generate --schema="complete path to your schema.prisma file"
-npx prisma migrate dev --schema="complete path to your schema.prisma file" # if you are using PostgreSQL
-npx prisma db push --schema="complete path to your schema.prisma file" # if you are using MongoDB
+npx prisma generate
+npx prisma migrate dev # if you are using PostgreSQL
+npx prisma db push # if you are using MongoDB
 ```
-
-Make sure to replace "complete path to your schema.prisma file" with the actual file path of your schema.prisma file. 
 
 🎉 Happy coding with your Next.js application! 🚀

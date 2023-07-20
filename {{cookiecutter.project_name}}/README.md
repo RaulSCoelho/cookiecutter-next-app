@@ -32,11 +32,9 @@ npm test:coverage
 After completing the construction of your schemas, execute the following command to generate the necessary artifacts:
 
 ```bash
-npx prisma generate --schema="complete path to your schema.prisma file"
-npx {{ 'prisma db push' if cookiecutter.data_base == 'mongodb' else 'prisma migrate dev' }} --schema="complete path to your schema.prisma file"
+npx prisma generate
+npx {{ 'prisma db push' if cookiecutter.data_base == 'mongodb' else 'prisma migrate dev' }}
 ```
-
-Make sure to replace "complete path to your schema.prisma file" with the actual file path of your schema.prisma file.
 
 ## Learn More
 

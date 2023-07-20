@@ -1,31 +1,42 @@
-import { PrismaApiCreate, PrismaApiResponse, PrismaApiUpdate } from '@/types/prisma'
-import { User } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
-import { PrismaApi } from '.'
+import { prisma } from '.'
 
-class UsersApi extends PrismaApi<User> {
+class UsersApi {
+  prisma: Prisma.UserDelegate
+
   constructor() {
-    super('user')
+    this.prisma = prisma.user
   }
 
-  override async create({ payload, raiseError }: PrismaApiCreate<User>): Promise<PrismaApiResponse<User>> {
-    const { result, error } = await super.create({ payload, raiseError })
-
-    if (error?.code === 'P2002') {
-      return { result, error: new Error('User with this email address already exists!') }
+  async get() {
+    try {
+      const users = await this.prisma.findMany()
+      return { users }
+    } catch (error: any) {
+      return { error }
     }
-
-    return { result, error }
   }
 
-  override async update({ payload, raiseError }: PrismaApiUpdate<User>): Promise<PrismaApiResponse<User>> {
-    const { result, error } = await super.update({ payload, raiseError })
-
-    if (error?.code === 'P2002') {
-      return { result, error: new Error('User with this email address already exists!') }
+  async getById({ id }: { id: string }) {
+    try {
+      const user = await this.prisma.findUnique({ where: { id } })
+      return { user }
+    } catch (error: any) {
+      return { error }
     }
+  }
 
-    return { result, error }
+  async create({ payload }: { payload: Prisma.UserCreateInput }) {
+    try {
+      const user = await this.prisma.create({ data: payload })
+      return { user }
+    } catch (error: any) {
+      if (error?.code === 'P2002') {
+        return { error: new Error('User with this email address already exists!') }
+      }
+      return { error }
+    }
   }
 }
 

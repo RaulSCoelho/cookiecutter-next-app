@@ -4,14 +4,14 @@ import { parseCookies } from 'nookies'
 export const api = getApiClient()
 
 export function getApiClient(ctx?: any) {
-  const { access_token } = parseCookies(ctx)
+  const { accessToken } = parseCookies(ctx)
 
   const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_HOST
   })
 
-  if (access_token) {
-    api.defaults.headers.Authorization = `Bearer ${access_token}`
+  if (accessToken) {
+    api.defaults.headers.Authorization = `Bearer ${accessToken}`
   }
 
   return api
