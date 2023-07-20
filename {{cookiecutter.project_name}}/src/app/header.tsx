@@ -1,5 +1,6 @@
 'use client'
 
+import { AiOutlineUser } from 'react-icons/ai'
 import { IoHomeOutline } from 'react-icons/io5'
 import { RiFilePaper2Line } from 'react-icons/ri'
 
@@ -16,6 +17,7 @@ export function Header() {
           <Sidebar.Body>
             <Sidebar.Route text="Home" path="/" icon={IoHomeOutline} />
             <Sidebar.Route text="Components" path="/components" icon={RiFilePaper2Line} />
+            <Sidebar.Route text="Users" path="/users" icon={AiOutlineUser} />
           </Sidebar.Body>
         </Sidebar.Root>
         <Link href="/" className="text-lg font-semibold">

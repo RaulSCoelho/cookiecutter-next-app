@@ -65,6 +65,15 @@ class UsersApi {
       return { error }
     }
   }
+
+  async delete({ id }: { id: string }) {
+    try {
+      await this.prisma.delete({ where: { id } })
+      return {}
+    } catch (error: any) {
+      return { error }
+    }
+  }
 }
 
 export const usersApi = new UsersApi()

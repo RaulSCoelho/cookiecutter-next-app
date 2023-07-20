@@ -8,7 +8,7 @@ import { Button } from '@/components/Buttons'
 import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
 import { useAxios } from '@/hooks/useAxios'
-import { createUserSchema } from '@/types/user'
+import { SignUpRequest, signUpSchema } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 
@@ -23,12 +23,13 @@ export function Users({ users }: UsersProps) {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<User>({ resolver: zodResolver(createUserSchema) })
+  } = useForm<SignUpRequest>({ resolver: zodResolver(signUpSchema) })
   const [userList, setUserList] = useState<User[]>(users || [])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  async function onSubmit(user: User) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async function onSubmit({ confirmPassword, ...user }: SignUpRequest) {
     setIsLoading(true)
     const { data, error } = await useAxios.post<User>('api/users', user)
     if (error) {
@@ -55,9 +56,24 @@ export function Users({ users }: UsersProps) {
       {isLoading && <Loading />}
       <Snackbar open={!!error} message={error} type="error" onClose={() => setError('')} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Input label="name" error={errors.name?.message} {...register('name')} />
-          <Input label="email" error={errors.email?.message} {...register('email')} />
+        <div>
+          <Input label="username" error={errors.username?.message} {...register('username')} />
+          <div className="mt-4 flex gap-4">
+            <Input
+              type="password"
+              label="password"
+              wrapperClassName="w-1/2"
+              error={errors.password?.message}
+              {...register('password')}
+            />
+            <Input
+              type="password"
+              label="confirm password"
+              wrapperClassName="w-1/2"
+              error={errors.confirmPassword?.message}
+              {...register('confirmPassword')}
+            />
+          </div>
         </div>
         <Button type="submit" className="mt-4" loading={isLoading} readOnly={isLoading}>
           Create User
@@ -70,8 +86,8 @@ export function Users({ users }: UsersProps) {
               key={user.id}
               className="relative flex flex-col items-center overflow-hidden rounded bg-skin-fill-secondary p-4 text-skin-base shadow"
             >
-              <p className="break-all font-semibold">{user.name}</p>
-              <p className="break-all font-semibold">{user.email}</p>
+              <p className="break-all font-semibold">{user.username}</p>
+              <p className="break-all font-semibold">{user.role}</p>
               <Trash
                 size={22}
                 className="absolute right-1 top-1 cursor-pointer text-red-500 hover:text-red-700"

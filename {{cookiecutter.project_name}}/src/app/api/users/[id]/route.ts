@@ -13,3 +13,10 @@ export async function GET(req: NextRequest, { params: { id } }: Params) {
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
   return NextResponse.json(user)
 }
+
+export async function DELETE(req: NextRequest, { params: { id } }: Params) {
+  const { error } = await usersApi.delete({ id })
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  return NextResponse.json({ success: 'User deleted successfully' })
+}
