@@ -5,7 +5,6 @@ import { ReactNode, useState } from 'react'
 import { Button } from '@/components/Buttons'
 import { ConfirmationModal } from '@/components/Feedback/ConfirmationModal'
 import { Snackbar, SnackbarProps } from '@/components/Feedback/Snackbar'
-import { File } from '@/components/Input/File'
 import { Select } from '@/components/Input/Select'
 import { Modal } from '@/components/Modal'
 
@@ -45,7 +44,6 @@ function Spinner() {
       <Button onClick={handleClick} loading={loading} variant="outlined">
         Click
       </Button>
-      <File />
     </Component>
   )
 }

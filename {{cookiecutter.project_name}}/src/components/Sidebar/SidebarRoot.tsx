@@ -13,7 +13,7 @@ interface SidebarRootProps {
 const sidebar = tv({
   slots: {
     bg: 'fixed z-10 bg-black bg-opacity-50 select-none',
-    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-primary-light transition-[inset] dark:bg-secondary-dark sm:w-96'
+    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-[#fbfbfb] transition-[inset] dark:bg-[#0F172A] sm:w-96'
   },
   variants: {
     open: {
