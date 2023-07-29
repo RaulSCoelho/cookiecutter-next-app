@@ -22,10 +22,10 @@ const snackbar = tv({
       1: 'opacity-100'
     },
     color: {
-      success: 'bg-green-100 text-green-800',
-      error: 'bg-red-100 text-red-800',
-      alert: 'bg-yellow-100 text-yellow-800',
-      info: 'bg-blue-100 text-blue-800'
+      success: 'bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light',
+      error: 'bg-error-light text-error-dark dark:bg-error-dark dark:text-error-light',
+      alert: 'bg-warning-light text-warning-dark dark:bg-warning-dark dark:text-warning-light',
+      info: 'bg-info-light text-info-dark dark:bg-info-dark dark:text-info-light'
     },
     position: {
       'left-bottom': '-left-full bottom-4',
@@ -49,10 +49,10 @@ const snackbar = tv({
 })
 
 const iconMap = {
-  success: <FaCheckCircle className="text-green-500" />,
-  error: <FaBan className="text-red-500" />,
-  alert: <FaExclamation className="text-yellow-500" />,
-  info: <FaInfoCircle className="text-blue-500" />
+  success: <FaCheckCircle size={20} className="text-green-500 dark:text-green-300" />,
+  error: <FaBan size={20} className="text-red-500 dark:text-red-300" />,
+  alert: <FaExclamation size={20} className="text-yellow-500 dark:text-yellow-300" />,
+  info: <FaInfoCircle size={20} className="text-blue-500 dark:text-blue-200" />
 }
 
 export function Snackbar({ open, message, type, onClose, position = 'left-bottom', duration = 6 }: SnackbarProps) {
@@ -80,7 +80,7 @@ export function Snackbar({ open, message, type, onClose, position = 'left-bottom
       <div className="flex items-center gap-3">
         {iconMap[type]}
         <p className="max-w-[250px] text-sm">{message}</p>
-        <FaTimes className="cursor-pointer text-gray-500" onClick={handleClose} />
+        <FaTimes className="cursor-pointer text-inherit" onClick={handleClose} />
       </div>
     </div>
   )

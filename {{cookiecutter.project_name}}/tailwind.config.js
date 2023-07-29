@@ -19,16 +19,16 @@ module.exports = {
           dark: '#00B8D9'
         },
         success: {
-          light: '#77ED8B',
-          dark: '#118D57'
+          light: '#D3FCD2',
+          dark: '#22C55E'
         },
         warning: {
-          light: '#FFD666',
-          dark: '#B76E00'
+          light: '#FFF5CC',
+          dark: '#FFAB00'
         },
         error: {
-          light: '#FFAC82',
-          dark: '#B71D18'
+          light: '#FFE9D5',
+          dark: '#FF5630'
         }
       },
       animation: {
