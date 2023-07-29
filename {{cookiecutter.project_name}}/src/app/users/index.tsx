@@ -84,7 +84,7 @@ export function Users({ users }: UsersProps) {
           {userList.map(user => (
             <div
               key={user.id}
-              className="relative flex flex-col items-center overflow-hidden rounded bg-skin-fill-secondary p-4 text-skin-base shadow"
+              className="relative flex flex-col items-center overflow-hidden rounded bg-[#e6f4f3] p-4 text-[#3c3c43] shadow dark:bg-[#3c3c43] dark:text-[#f7fafc]"
             >
               <p className="break-all font-semibold">{user.username}</p>
               <p className="break-all font-semibold">{user.role}</p>

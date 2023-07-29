@@ -9,7 +9,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   return (
     <div className="relative w-fit">
       {rest.checked ? (
-        <MdCheckBox size={size} className="text-skin-fill-primary" />
+        <MdCheckBox size={size} className="text-[#2065D1] dark:text-[#bd93f9]" />
       ) : (
         <MdCheckBoxOutlineBlank size={size} />
       )}

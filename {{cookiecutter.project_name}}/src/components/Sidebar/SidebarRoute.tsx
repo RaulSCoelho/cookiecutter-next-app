@@ -1,16 +1,14 @@
-import { useEffect } from 'react'
 import { IconType } from 'react-icons/lib'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { tv } from 'tailwind-variants'
 
-import { useSidebar } from './SidebarRoot'
-
 interface SidebarRouteProps {
   icon: IconType
   text: string
   path: string
+  exact?: boolean
 }
 
 const sidebarRoute = tv({
@@ -26,25 +24,12 @@ const sidebarRoute = tv({
   }
 })
 
-export function SidebarRoute({ icon: Icon, text, path }: SidebarRouteProps) {
-  const { state, setPage, close } = useSidebar()
+export function SidebarRoute({ icon: Icon, text, path, exact }: SidebarRouteProps) {
   const pathname = usePathname()
-
-  useEffect(() => {
-    if (path === '/' && pathname !== '/') return
-    if (pathname.startsWith(path)) {
-      setPage(path)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
-
-  function handleClick() {
-    close()
-    setPage(path)
-  }
+  const selected = exact ? pathname === path : pathname?.startsWith(path)
 
   return (
-    <Link href={path} className={sidebarRoute({ selected: state.page === path })} onClick={handleClick}>
+    <Link href={path} className={sidebarRoute({ selected })}>
       <Icon size={24} />
       {text}
     </Link>

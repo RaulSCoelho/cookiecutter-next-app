@@ -1,5 +1,6 @@
 'use client'
 
+import { SidebarAccordion } from './SidebarAccordion'
 import { SidebarBody } from './SidebarBody'
 import { SidebarFooter } from './SidebarFooter'
 import { SidebarHeader } from './SidebarHeader'
@@ -11,5 +12,6 @@ export const Sidebar = {
   Header: SidebarHeader,
   Body: SidebarBody,
   Route: SidebarRoute,
+  Accordion: SidebarAccordion,
   Footer: SidebarFooter
 }

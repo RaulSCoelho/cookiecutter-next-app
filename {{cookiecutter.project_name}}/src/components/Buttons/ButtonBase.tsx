@@ -18,7 +18,8 @@ export interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement>
 
 const button = tv({
   slots: {
-    base: 'relative select-none overflow-hidden shadow',
+    base: 'relative select-none shadow',
+    ripple: 'absolute inset-0 overflow-hidden rounded-[inherit]',
     spinner: 'absolute inset-0 z-[1] flex items-center justify-center rounded'
   }
 })
@@ -35,7 +36,7 @@ export function ButtonBase({
   ...rest
 }: ButtonBaseProps) {
   const [ripples, setRipples] = useState<(RippleProps & { id: string })[]>([])
-  const { base, spinner } = button()
+  const { base, ripple, spinner } = button()
 
   function addRipple(e: MouseEvent<HTMLButtonElement>) {
     const button = e.currentTarget as HTMLButtonElement
@@ -68,9 +69,13 @@ export function ButtonBase({
           <Spinner className="p-1 opacity-20" color="black" />
         </div>
       )}
-      {ripples.map(({ id, ...rest }) => (
-        <Ripple key={id} {...rest} />
-      ))}
+      {ripples.length > 0 && (
+        <div className={ripple()}>
+          {ripples.map(({ id, ...rest }) => (
+            <Ripple key={id} {...rest} />
+          ))}
+        </div>
+      )}
     </button>
   )
 }

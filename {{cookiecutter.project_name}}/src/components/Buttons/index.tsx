@@ -9,22 +9,27 @@ export interface ButtonProps extends ButtonBaseProps {
 }
 
 const button = tv({
-  base: 'rounded px-4 py-2 font-bold focus:outline-none',
+  base: 'rounded px-4 py-2 font-bold focus:outline-none text-white',
   variants: {
     variant: {
-      text: 'hover:bg-skin-button hover:bg-opacity-5 text-skin-fill-primary',
-      contained: 'bg-skin-button hover:bg-skin-button-hover',
-      outlined: 'border-skin-fill-primary text-skin-fill-primary border hover:bg-skin-button hover:bg-opacity-5'
+      text: 'text-[#2065D1] hover:bg-[#2065D120] dark:text-[#bd93f9] dark:hover:bg-[#bd93f920]',
+      contained: 'bg-[#2065D1] hover:bg-[#1d56b1] dark:bg-[#bd93f9] dark:hover:bg-[#8b5cf6]',
+      outlined:
+        'border border-[#2065D1] text-[#2065D1] hover:bg-[#2065D120] dark:border-[#bd93f9] dark:text-[#bd93f9] dark:hover:bg-[#bd93f920]'
     },
     readOnly: {
-      true: 'text-gray-500 bg-gray-400 hover:bg-gray-400'
+      true: 'text-gray-500 bg-gray-400 hover:bg-gray-400 dark:text-gray-500 dark:bg-gray-400 dark:hover:bg-gray-400'
     },
     loading: {
-      true: 'text-transparent'
+      true: 'text-transparent dark:text-transparent'
     }
   },
   compoundVariants: [
-    { readOnly: true, variant: ['outlined', 'text'], class: 'border-gray-400 bg-opacity-5' },
+    {
+      readOnly: true,
+      variant: ['outlined', 'text'],
+      class: 'border-gray-400 bg-gray-400/5 dark:border-gray-400 dark:bg-gray-400/5'
+    },
     { readOnly: false, loading: false, class: 'active:shadow-lg' }
   ],
   defaultVariants: {

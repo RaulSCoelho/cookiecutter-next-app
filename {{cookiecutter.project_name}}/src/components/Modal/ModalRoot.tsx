@@ -18,7 +18,7 @@ const modal = tv({
   slots: {
     wrapper:
       'fixed inset-0 z-20 flex animate-fade-in items-center justify-center bg-black bg-opacity-50 transition-[opacity] duration-[225ms] ease-in-out',
-    content: 'flex flex-col bg-skin-fill text-skin-base'
+    content: 'flex flex-col bg-[#f2f0f5] text-[#3c3c43] dark:bg-[#2d3748] dark:text-[#f7fafc]'
   },
   variants: {
     opacity: {

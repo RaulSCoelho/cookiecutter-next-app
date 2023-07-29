@@ -20,14 +20,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${inter.className} h-full scroll-smooth antialiased`}>
-      <body className="bg-skin-fill text-skin-base" suppressHydrationWarning>
+      <body className="bg-[#f2f0f5] text-[#3c3c43] dark:bg-[#2d3748] dark:text-[#f7fafc]" suppressHydrationWarning>
         <ThemesProvider>
           <UserProvider>
             <div className="h-screen scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
               <Header />
-              <div className="h-full overflow-auto p-4 pt-14 scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b] sm:p-14">
-                {children}
-              </div>
+              <div className="pt-28 sm:px-14 sm:pt-14">{children}</div>
             </div>
           </UserProvider>
         </ThemesProvider>

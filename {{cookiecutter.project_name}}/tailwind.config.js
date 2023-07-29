@@ -1,50 +1,34 @@
 /** @type {import('tailwindcss').Config} */
 
-function withColorEffect(variableName) {
-  return props => {
-    const { opacity, opacityValue, brightness } = props
-    let color = `rgb(var(${variableName}))`
-    if (opacity !== undefined) {
-      color = `rgba(var(${variableName}), ${opacity})`
-    }
-    if (opacityValue !== undefined) {
-      color = `rgba(var(${variableName}), ${opacityValue})`
-    }
-    if (brightness !== undefined) {
-      color += ` brightness(${brightness})`
-    }
-    return color
-  }
-}
-
-const fillProps = {
-  fill: withColorEffect('--color-fill'),
-  'fill-primary': withColorEffect('--color-fill-primary'),
-  'fill-secondary': withColorEffect('--color-fill-secondary')
-}
-
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
-      textColor: {
-        skin: {
-          ...fillProps,
-          base: withColorEffect('--color-text-base'),
-          muted: withColorEffect('--color-text-muted'),
-          inverted: withColorEffect('--color-text-inverted')
-        }
-      },
-      backgroundColor: {
-        skin: {
-          ...fillProps,
-          button: withColorEffect('--color-button'),
-          'button-hover': withColorEffect('--color-button-hover')
-        }
-      },
-      borderColor: {
-        skin: {
-          ...fillProps
+      colors: {
+        primary: {
+          light: '#D1E9FC',
+          dark: '#103996'
+        },
+        secondary: {
+          light: '#EFD6FF',
+          dark: '#8E33FF'
+        },
+        info: {
+          light: '#CAFDF5',
+          dark: '#00B8D9'
+        },
+        success: {
+          light: '#77ED8B',
+          dark: '#118D57'
+        },
+        warning: {
+          light: '#FFD666',
+          dark: '#B76E00'
+        },
+        error: {
+          light: '#FFAC82',
+          dark: '#B71D18'
         }
       },
       animation: {

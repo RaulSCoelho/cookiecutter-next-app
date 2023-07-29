@@ -8,8 +8,8 @@ import { Side, SunMoon } from './SunMoon'
 
 interface DayNightSwitchProps {
   day?: boolean
-  onDay?: () => void
-  onNight?: () => void
+  onDay?(): void
+  onNight?(): void
   size?: number
 }
 

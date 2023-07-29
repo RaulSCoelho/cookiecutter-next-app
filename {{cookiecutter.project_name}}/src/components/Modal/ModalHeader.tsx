@@ -1,9 +1,10 @@
+import { ReactNode } from 'react'
 import { IoClose } from 'react-icons/io5'
 
 import { IconButton } from '../Buttons/IconButton'
 
 interface ModalHeaderProps {
-  title?: string
+  title?: string | ReactNode
   onClose(): void
 }
 

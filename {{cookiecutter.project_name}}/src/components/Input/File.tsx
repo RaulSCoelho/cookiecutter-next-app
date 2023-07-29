@@ -5,6 +5,7 @@ import { MdAttachFile as AttachFileIcon } from 'react-icons/md'
 
 import { tv } from 'tailwind-variants'
 
+import { Button } from '../Buttons'
 import { Snackbar } from '../Feedback/Snackbar'
 
 interface FileProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
@@ -14,7 +15,7 @@ interface FileProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> 
 }
 
 const file = tv({
-  base: 'flex max-w-max cursor-pointer gap-1 rounded-lg bg-skin-button p-2 text-sm uppercase tracking-wide text-gray-100 shadow-lg hover:bg-skin-button-hover active:bg-skin-button'
+  base: 'flex gap-1 p-2 pr-3 text-sm uppercase tracking-wide'
 })
 
 export const File = forwardRef<HTMLInputElement, FileProps>(function File(
@@ -45,11 +46,11 @@ export const File = forwardRef<HTMLInputElement, FileProps>(function File(
   return (
     <>
       <div className={wrapperClassName}>
-        <label className={file({ className })}>
+        <Button className={file({ className })}>
           <AttachFileIcon size={20} />
           <span>{text || 'File'}</span>
           <input ref={ref} type="file" className="hidden" onChange={handleChange} {...rest} />
-        </label>
+        </Button>
         {error && <p className="text-red-500">{error}</p>}
       </div>
       {/* ERROR MODAL */}

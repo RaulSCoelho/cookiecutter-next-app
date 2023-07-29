@@ -2,22 +2,26 @@ import { IconType } from 'react-icons/lib'
 
 import { tv } from 'tailwind-variants'
 
+import { Badge } from '../Badge'
 import { ButtonBase, ButtonBaseProps } from './ButtonBase'
 
-interface IconButtonProps extends Omit<ButtonBaseProps, 'children'> {
+export interface IconButtonProps extends Omit<ButtonBaseProps, 'children'> {
   icon: IconType
   size?: number
   color?: string
+  badgeContent?: string | number
 }
 
 const iconButton = tv({
-  base: 'flex aspect-square p-1.5 items-center justify-center rounded-[50%] bg-gray-500 bg-opacity-10'
+  base: 'relative flex aspect-square p-1.5 items-center justify-center rounded-[50%] bg-gray-500 bg-opacity-10'
 })
 
-export function IconButton({ icon: Icon, size, color, className, ...rest }: IconButtonProps) {
+export function IconButton({ icon: Icon, size, color, badgeContent, className, ...rest }: IconButtonProps) {
   return (
     <ButtonBase className={iconButton({ className })} {...rest}>
-      <Icon size={size || 20} color={color || 'inherit'} />
+      <Badge content={badgeContent}>
+        <Icon size={size || 20} color={color || 'inherit'} />
+      </Badge>
     </ButtonBase>
   )
 }

@@ -1,18 +1,16 @@
 import { ReactNode } from 'react'
 
-import { useSidebar } from './SidebarRoot'
+import { tv } from 'tailwind-variants'
 
 interface SidebarFooterProps {
   children: ReactNode
-  close?: boolean
+  className?: string
 }
 
-export function SidebarFooter({ children, close }: SidebarFooterProps) {
-  const { close: onClose } = useSidebar()
+const footer = tv({
+  base: 'flex min-h-[3rem] items-stretch bg-black bg-opacity-5'
+})
 
-  return (
-    <div onClick={close ? onClose : undefined} className="flex h-12 items-stretch bg-black bg-opacity-5">
-      {children}
-    </div>
-  )
+export function SidebarFooter({ children, className }: SidebarFooterProps) {
+  return <div className={footer({ className })}>{children}</div>
 }

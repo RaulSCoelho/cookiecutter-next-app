@@ -5,9 +5,6 @@ import { useTheme } from '@/hooks/useTheme'
 import { DayNightSwitch } from './DayNightSwitch'
 
 export function ThemeSwitcher() {
-  const { theme, changeTheme } = useTheme()
-
-  return (
-    <DayNightSwitch day={theme === 'light'} onDay={() => changeTheme('light')} onNight={() => changeTheme('dark')} />
-  )
+  const { theme, setTheme } = useTheme()
+  return <DayNightSwitch day={theme === 'light'} onDay={() => setTheme('light')} onNight={() => setTheme('dark')} />
 }

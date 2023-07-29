@@ -1,77 +1,49 @@
-'use client'
+import { MouseEvent, ReactNode, useEffect } from 'react'
 
-import { MouseEvent, ReactNode, createContext, useContext, useReducer } from 'react'
-import { MdMenu } from 'react-icons/md'
-
+import { usePathname } from 'next/navigation'
 import { tv } from 'tailwind-variants'
-
-import { IconButton } from '../Buttons/IconButton'
-
-type SidebarContextProps = {
-  state: State
-  close(): void
-  open(): void
-  setPage(page: string): void
-}
-
-const SidebarContext = createContext({} as SidebarContextProps)
-
-interface Action {
-  type: 'open' | 'close' | 'change_page'
-  page?: string
-}
-
-interface State {
-  open: boolean
-  page: string
-}
 
 interface SidebarRootProps {
   children: ReactNode
+  open: boolean
+  onClose(): void
+  position?: 'left' | 'right'
 }
 
 const sidebar = tv({
   slots: {
     bg: 'fixed z-10 bg-black bg-opacity-50 select-none',
-    menu: 'fixed flex flex-col bottom-0 top-0 w-[90%] bg-skin-fill-primary sm:w-96 transition-[left]'
+    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-primary-light transition-[inset] dark:bg-secondary-dark sm:w-96'
   },
   variants: {
     open: {
-      true: { bg: 'inset-0', menu: 'left-0' },
-      false: { bg: '-left-full', menu: '-left-full' }
+      true: { bg: 'inset-0' },
+      false: {}
+    },
+    position: {
+      left: {},
+      right: {}
     }
   },
+  compoundVariants: [
+    { open: true, position: 'left', className: { menu: 'left-0' } },
+    { open: false, position: 'left', className: { bg: '-left-full', menu: '-left-full' } },
+    { open: true, position: 'right', className: { menu: 'right-0' } },
+    { open: false, position: 'right', className: { bg: '-right-full', menu: '-right-full' } }
+  ],
   defaultVariants: {
     open: false
   }
 })
 
-function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case 'open':
-      return { ...state, open: true }
-    case 'close':
-      return { ...state, open: false }
-    case 'change_page':
-      return { ...state, page: action.page || '' }
-  }
-}
+export function SidebarRoot({ children, open, onClose, position = 'left' }: SidebarRootProps) {
+  const pathname = usePathname()
+  const { bg, menu } = sidebar({ open, position })
 
-export function SidebarRoot({ children }: SidebarRootProps) {
-  const [state, dispatch] = useReducer(reducer, { open: false, page: '' })
-  const { bg, menu } = sidebar({ open: state.open })
-
-  function handleClose() {
-    dispatch({ type: 'close' })
-  }
-
-  function handleOpen() {
-    dispatch({ type: 'open' })
-  }
-
-  function setPage(page: string) {
-    dispatch({ type: 'change_page', page })
-  }
+  useEffect(() => {
+    if (open) onClose()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   function handleClickOutside(e: MouseEvent<HTMLDivElement>) {
     const sidebarBg = e.currentTarget as HTMLDivElement
@@ -79,21 +51,13 @@ export function SidebarRoot({ children }: SidebarRootProps) {
     const target = e.target as HTMLDivElement
 
     if (!sidebar.contains(target) && sidebarBg.style.display !== 'none') {
-      handleClose()
+      onClose()
     }
   }
 
-  const value: SidebarContextProps = { state, close: handleClose, open: handleOpen, setPage }
   return (
-    <SidebarContext.Provider value={value}>
-      <IconButton icon={MdMenu} onClick={handleOpen} />
-      <div className={bg()} onClick={handleClickOutside}>
-        <div className={menu()}>{children}</div>
-      </div>
-    </SidebarContext.Provider>
+    <div className={bg()} onClick={handleClickOutside}>
+      <div className={menu()}>{children}</div>
+    </div>
   )
-}
-
-export function useSidebar(): SidebarContextProps {
-  return useContext(SidebarContext)
 }

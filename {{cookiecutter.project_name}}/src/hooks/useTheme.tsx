@@ -8,46 +8,38 @@ type Theme = 'light' | 'dark'
 
 type ThemesContextProps = {
   theme: Theme
-  changeTheme: (theme: Theme) => void
-  toggleTheme: () => void
+  setTheme(theme: Theme): void
+  toggleTheme(): void
 }
 
 const ThemesContext = createContext({} as ThemesContextProps)
 
-function restoreTheme() {
+function isDarkMode() {
   const { theme } = parseCookies()
-  return theme as Theme
-}
-
-function storeTheme(theme: string) {
-  setCookie(undefined, 'theme', theme, {
-    path: '/',
-    maxAge: 2147483647
-  })
+  if (typeof window === 'undefined') return false
+  return theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
 export function ThemesProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const storedTheme = restoreTheme()
-    if (storedTheme) return storedTheme
-    return 'dark'
-  })
+  const [theme, setTheme] = useState<Theme>(isDarkMode() ? 'dark' : 'light')
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    setCookie(undefined, 'theme', theme, {
+      path: '/',
+      maxAge: 2147483647
+    })
+  }, [theme])
 
   function toggleTheme() {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
 
-  function changeTheme(theme: Theme) {
-    setTheme(theme)
-  }
-
-  useEffect(() => {
-    const body = document.querySelector('body') as HTMLBodyElement
-    body.classList.toggle('theme-dark', theme === 'dark')
-    storeTheme(theme)
-  }, [theme])
-
-  const value: ThemesContextProps = { theme, changeTheme, toggleTheme }
+  const value: ThemesContextProps = { theme, setTheme, toggleTheme }
   return <ThemesContext.Provider value={value}>{children}</ThemesContext.Provider>
 }
 
