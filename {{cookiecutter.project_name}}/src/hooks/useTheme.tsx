@@ -2,45 +2,56 @@
 
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react'
 
-import { parseCookies, setCookie } from 'nookies'
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
-type Theme = 'light' | 'dark'
+type SystemTheme = 'light' | 'dark'
+export type Theme = SystemTheme | 'system'
 
 type ThemesContextProps = {
   theme: Theme
+  systemTheme: SystemTheme
   setTheme(theme: Theme): void
-  toggleTheme(): void
 }
 
 const ThemesContext = createContext({} as ThemesContextProps)
 
-function isDarkMode() {
-  const { theme } = parseCookies()
+function isSystemDark() {
   if (typeof window === 'undefined') return false
-  return theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+function isDarkMode(theme: Theme) {
+  return theme === 'dark' || (theme === 'system' && isSystemDark())
 }
 
 export function ThemesProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(isDarkMode() ? 'dark' : 'light')
+  const [loading, setLoading] = useState(true)
+  const [theme, setTheme] = useState<Theme>(() => {
+    const { theme } = parseCookies()
+    return theme !== 'dark' && theme !== 'light' ? 'system' : theme
+  })
+  const systemTheme = isSystemDark() ? 'dark' : 'light'
 
   useEffect(() => {
-    if (theme === 'dark') {
+    if (isDarkMode(theme)) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
     }
-    setCookie(undefined, 'theme', theme, {
-      path: '/',
-      maxAge: 2147483647
-    })
+
+    if (theme === 'system') {
+      destroyCookie(undefined, 'theme')
+    } else {
+      setCookie(undefined, 'theme', theme, {
+        path: '/',
+        maxAge: 2147483647
+      })
+    }
+    setLoading(false)
   }, [theme])
 
-  function toggleTheme() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
-
-  const value: ThemesContextProps = { theme, setTheme, toggleTheme }
-  return <ThemesContext.Provider value={value}>{children}</ThemesContext.Provider>
+  const value: ThemesContextProps = { theme, systemTheme, setTheme }
+  return <ThemesContext.Provider value={value}>{loading ? null : children}</ThemesContext.Provider>
 }
 
 export function useTheme(): ThemesContextProps {
