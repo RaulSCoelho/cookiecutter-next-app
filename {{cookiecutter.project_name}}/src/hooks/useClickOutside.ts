@@ -1,10 +1,10 @@
 import { RefObject, useEffect } from 'react'
 
-export function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
+export function useClickOutside(ref: RefObject<any>, onClickOutside?: () => void) {
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target)) {
-        onClickOutside()
+        onClickOutside?.()
       }
     }
 

@@ -1,7 +1,8 @@
 'use client'
 
-import { MouseEvent, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 
+import { useClickOutside } from '@/hooks/useClickOutside'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { tv } from 'tailwind-variants'
 
@@ -52,6 +53,8 @@ export function ModalRoot({
   const [isVisible, setIsVisible] = useState(false)
   const [opacity, setOpacity] = useState<0 | 1>(0)
   const { wrapper, content } = modal({ size, opacity, fullScreen: fullScreen && isSmallScreen })
+  const modalRef = useRef(null)
+  useClickOutside(modalRef, onClickOutside)
 
   useEffect(() => {
     setOpacity(open ? 1 : 0)
@@ -63,25 +66,15 @@ export function ModalRoot({
     }
   }, [open])
 
-  function handleClickOutsideModal(e: MouseEvent<HTMLDivElement>) {
-    const modalBg = e.currentTarget as HTMLDivElement
-    const modal = modalBg.querySelector('#modalContent') as HTMLElement
-    const target = e.target as HTMLDivElement
-
-    if (!modal.contains(target) && modalBg.style.display !== 'none') {
-      onClickOutside?.()
-    }
-  }
-
   if (!isVisible) return null
   return (
-    <div data-test="modal" className={wrapper()} onClick={handleClickOutsideModal}>
+    <div data-test="modal" className={wrapper()}>
       {onFormSubmit ? (
-        <form id="modalContent" className={content()} onSubmit={onFormSubmit}>
+        <form ref={modalRef} className={content()} onSubmit={onFormSubmit}>
           {children}
         </form>
       ) : (
-        <div id="modalContent" className={content()}>
+        <div ref={modalRef} className={content()}>
           {children}
         </div>
       )}
