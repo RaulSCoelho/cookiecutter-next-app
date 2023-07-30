@@ -52,9 +52,9 @@ export function ModalRoot({
   const isSmallScreen = useMediaQuery('sm')
   const [isVisible, setIsVisible] = useState(false)
   const [opacity, setOpacity] = useState<0 | 1>(0)
-  const { wrapper, content } = modal({ size, opacity, fullScreen: fullScreen && isSmallScreen })
   const modalRef = useRef(null)
   useClickOutside(modalRef, onClickOutside)
+  const { wrapper, content } = modal({ size, opacity, fullScreen: fullScreen && isSmallScreen })
 
   useEffect(() => {
     setOpacity(open ? 1 : 0)
