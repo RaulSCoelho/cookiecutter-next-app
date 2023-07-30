@@ -40,7 +40,11 @@ const button = tv({
 
 export function Button({ children, variant = 'contained', className, ...rest }: ButtonProps) {
   return (
-    <ButtonBase className={button({ variant, loading: rest.loading, readOnly: rest.readOnly, className })} {...rest}>
+    <ButtonBase
+      rippleColor="#7dafff"
+      className={button({ variant, loading: rest.loading, readOnly: rest.readOnly, className })}
+      {...rest}
+    >
       {children}
     </ButtonBase>
   )
