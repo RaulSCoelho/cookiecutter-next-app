@@ -38,10 +38,10 @@ const button = tv({
   }
 })
 
-export function Button({ children, variant = 'contained', className, ...rest }: ButtonProps) {
+export function Button({ children, className, variant = 'contained', rippleColor = '#7dafff', ...rest }: ButtonProps) {
   return (
     <ButtonBase
-      rippleColor="#7dafff"
+      rippleColor={rippleColor}
       className={button({ variant, loading: rest.loading, readOnly: rest.readOnly, className })}
       {...rest}
     >
