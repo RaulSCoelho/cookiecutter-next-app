@@ -1,10 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { BiSun } from 'react-icons/bi'
+import { IconType } from 'react-icons/lib'
 import { LuMoonStar } from 'react-icons/lu'
 import { TbDeviceDesktop } from 'react-icons/tb'
 
+import { useClickOutside } from '@/hooks/useClickOutside'
 import { Theme, useTheme } from '@/hooks/useTheme'
 import { tv } from 'tailwind-variants'
 
@@ -35,23 +37,16 @@ const themeSelect = tv({
   }
 })
 
+function ThemeIcon({ icon: Icon, onClick }: { icon: IconType; onClick(): void }) {
+  return <Icon size={24} className="cursor-pointer text-slate-400" onClick={onClick} />
+}
+
 export function ThemeSwitcher() {
-  const { theme: selectedTheme, systemTheme, setTheme } = useTheme()
+  const { theme, systemTheme, setTheme } = useTheme()
   const [selectOpen, setSelectOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
-  const theme = selectedTheme === 'system' ? systemTheme : selectedTheme
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (!selectRef.current || !selectRef.current.contains(e.target as HTMLDivElement)) {
-        setSelectOpen(false)
-      }
-    }
-    document.addEventListener('click', handleClickOutside, true)
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true)
-    }
-  }, [])
+  useClickOutside(selectRef, () => setSelectOpen(false))
+  const selectedTheme = theme === 'system' ? systemTheme : theme
 
   function openSelect() {
     setSelectOpen(true)
@@ -64,20 +59,16 @@ export function ThemeSwitcher() {
 
   return (
     <div className="relative">
-      {theme === 'light' ? (
-        <BiSun size={24} className="cursor-pointer text-slate-400" onClick={openSelect} />
-      ) : (
-        <LuMoonStar size={24} className="cursor-pointer text-slate-400" onClick={openSelect} />
-      )}
+      <ThemeIcon icon={selectedTheme === 'light' ? BiSun : LuMoonStar} onClick={openSelect} />
       {selectOpen && (
         <div
           ref={selectRef}
           className="absolute right-0 top-full z-10 mt-8 w-36 select-none overflow-hidden rounded-lg bg-white py-1 text-sm font-semibold text-slate-700 shadow-lg dark:bg-slate-800 dark:text-slate-300"
         >
-          {themes.map(({ theme, text, Icon }) => (
+          {themes.map(({ theme: thisTheme, text, Icon }) => (
             <div
-              className={themeSelect({ selected: selectedTheme === theme })}
-              onClick={() => selectTheme(theme as Theme)}
+              className={themeSelect({ selected: thisTheme === theme })}
+              onClick={() => selectTheme(thisTheme as Theme)}
               key={text}
             >
               <Icon size={24} className="mr-2" />
