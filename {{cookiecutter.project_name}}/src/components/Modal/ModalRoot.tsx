@@ -1,25 +1,28 @@
 'use client'
 
 import { ReactNode, useEffect, useRef, useState } from 'react'
+import { IoClose } from 'react-icons/io5'
 
 import { useClickOutside } from '@/hooks/useClickOutside'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { tv } from 'tailwind-variants'
 
+import { IconButton } from '../Buttons/IconButton'
+
 interface ModalRootProps {
   children: ReactNode
   open: boolean
+  title?: string
   size?: 'sm' | 'md' | 'lg' | 'fixed-sm' | 'fixed-md' | 'fixed-lg'
   fullScreen?: boolean
-  onClickOutside?(): void
-  onFormSubmit?(): void
+  onClose?(): void
 }
 
 const modal = tv({
   slots: {
     wrapper:
-      'fixed inset-0 z-20 flex animate-fade-in items-center justify-center bg-black bg-opacity-50 transition-[opacity] duration-[225ms] ease-in-out',
-    content: 'flex flex-col bg-[#f2f0f5] text-[#3c3c43] dark:bg-[#2d3748] dark:text-[#f7fafc]'
+      'fixed inset-0 z-20 flex items-center justify-center bg-black/50 transition-[opacity] duration-[225ms] ease-in-out',
+    content: 'flex flex-col bg-white text-[#3c3c43] dark:bg-[#16223b] dark:text-[#f7fafc]'
   },
   variants: {
     opacity: {
@@ -41,43 +44,37 @@ const modal = tv({
   }
 })
 
-export function ModalRoot({
-  children,
-  open,
-  onClickOutside,
-  onFormSubmit,
-  size = 'sm',
-  fullScreen = true
-}: ModalRootProps) {
-  const isSmallScreen = useMediaQuery('sm')
-  const [isVisible, setIsVisible] = useState(false)
+export function ModalRoot({ children, open, title, onClose, size = 'sm', fullScreen = true }: ModalRootProps) {
+  const [visible, setVisible] = useState(false)
   const [opacity, setOpacity] = useState<0 | 1>(0)
-  const modalRef = useRef(null)
-  useClickOutside(modalRef, onClickOutside)
+  const isSmallScreen = useMediaQuery('sm')
+  const modalRef = useRef<HTMLDivElement>(null)
+  const modalContentRef = useRef<HTMLDivElement>(null)
   const { wrapper, content } = modal({ size, opacity, fullScreen: fullScreen && isSmallScreen })
 
-  useEffect(() => {
-    setOpacity(open ? 1 : 0)
+  useClickOutside({ ref: modalContentRef, parent: modalRef, onClickOutside: onClose })
 
-    if (open) {
-      setIsVisible(true)
-    } else {
-      setTimeout(() => setIsVisible(false), 225)
-    }
+  useEffect(() => {
+    if (open) setVisible(true)
+    setOpacity(open ? 1 : 0)
   }, [open])
 
-  if (!isVisible) return null
+  function handleTransitionEnd() {
+    if (!open) setVisible(false)
+  }
+
+  if (!visible) return null
   return (
-    <div data-test="modal" className={wrapper()}>
-      {onFormSubmit ? (
-        <form ref={modalRef} className={content()} onSubmit={onFormSubmit}>
-          {children}
-        </form>
-      ) : (
-        <div ref={modalRef} className={content()}>
-          {children}
+    <div ref={modalRef} data-test="modal" className={wrapper()} onTransitionEnd={handleTransitionEnd}>
+      <div ref={modalContentRef} className={content()}>
+        <div className="flex justify-between gap-4 p-4 pl-6 text-xl">
+          <div className="grow">{title}</div>
+          <div>
+            <IconButton icon={IoClose} onClick={onClose} />
+          </div>
         </div>
-      )}
+        {children}
+      </div>
     </div>
   )
 }

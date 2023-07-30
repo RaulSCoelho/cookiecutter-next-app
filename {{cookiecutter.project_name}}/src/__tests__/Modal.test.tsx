@@ -1,3 +1,4 @@
+import { Button } from '@/components/Buttons'
 import { Modal } from '@/components/Modal'
 import { render, fireEvent } from '@testing-library/react'
 
@@ -8,12 +9,11 @@ describe('Modal Component', () => {
     resizeScreenSize(640)
     const onCloseMock = jest.fn()
     const { container, getByTestId, getByText } = render(
-      <Modal.Root open={true} onFormSubmit={onCloseMock} onClickOutside={onCloseMock} fullScreen>
-        <Modal.Header onClose={onCloseMock} />
+      <Modal.Root open={true} onClose={onCloseMock} fullScreen>
         <Modal.Content>Modal</Modal.Content>
         <Modal.Actions>
-          <Modal.Action text="Close" onClick={onCloseMock} />
-          <Modal.Action text="Submit" onClick={onCloseMock} />
+          <Button onClick={onCloseMock}>Close</Button>
+          <Button onClick={onCloseMock}>Submit</Button>
         </Modal.Actions>
       </Modal.Root>
     )

@@ -64,8 +64,7 @@ function Modals() {
   return (
     <Component title="Modal">
       <Button onClick={() => setIsModalOpen(prev => !prev)}>Open Modal</Button>
-      <Modal.Root open={isModalOpen} onClickOutside={closeModal} size="fixed-sm">
-        <Modal.Header title="TV Shows" onClose={closeModal} />
+      <Modal.Root open={isModalOpen} title="TV Shows" onClose={closeModal} size="fixed-sm">
         <Modal.Content>
           <ul>
             {tvShows.map(ts => (
@@ -74,8 +73,8 @@ function Modals() {
           </ul>
         </Modal.Content>
         <Modal.Actions>
-          <Modal.Action text="Cancel" onClick={closeModal} />
-          <Modal.Action text="Confirm" onClick={() => setIsConfirmModalOpen(true)} />
+          <Button onClick={closeModal}>Cancel</Button>
+          <Button onClick={() => setIsConfirmModalOpen(true)}>Confirm</Button>
         </Modal.Actions>
       </Modal.Root>
       <ConfirmationModal

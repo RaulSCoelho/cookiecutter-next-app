@@ -45,7 +45,7 @@ export function ThemeSwitcher() {
   const { theme, systemTheme, setTheme } = useTheme()
   const [selectOpen, setSelectOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
-  useClickOutside(selectRef, () => setSelectOpen(false))
+  useClickOutside({ ref: selectRef, onClickOutside: () => setSelectOpen(false) })
   const selectedTheme = theme === 'system' ? systemTheme : theme
 
   function openSelect() {
