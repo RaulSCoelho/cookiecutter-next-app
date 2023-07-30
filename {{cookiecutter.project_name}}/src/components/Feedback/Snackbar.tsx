@@ -1,7 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { FaCheckCircle, FaInfoCircle, FaTimes, FaBan, FaExclamation } from 'react-icons/fa'
+import { FaCheckCircle, FaInfoCircle, FaTimes, FaExclamation } from 'react-icons/fa'
+import { MdError } from 'react-icons/md'
 
 import { tv } from 'tailwind-variants'
 
@@ -50,7 +51,7 @@ const snackbar = tv({
 
 const iconMap = {
   success: <FaCheckCircle size={20} className="text-green-500 dark:text-green-300" />,
-  error: <FaBan size={20} className="text-red-500 dark:text-red-300" />,
+  error: <MdError size={20} className="text-red-500 dark:text-red-300" />,
   alert: <FaExclamation size={20} className="text-yellow-500 dark:text-yellow-300" />,
   info: <FaInfoCircle size={20} className="text-blue-500 dark:text-blue-200" />
 }
