@@ -4,9 +4,10 @@ import { ReactNode, useState } from 'react'
 
 import { Button } from '@/components/Buttons'
 import { ConfirmationModal } from '@/components/Feedback/ConfirmationModal'
-import { Snackbar, SnackbarProps } from '@/components/Feedback/Snackbar'
+import { SnackbarProps } from '@/components/Feedback/Snackbar'
 import { Select } from '@/components/Input/Select'
 import { Modal } from '@/components/Modal'
+import { useSnackbar } from '@/hooks/useSnackbar'
 
 export function Components() {
   return (
@@ -89,16 +90,20 @@ function Modals() {
 }
 
 function Snackbars() {
-  const [open, setOpen] = useState(false)
+  const { open: openSnackbar } = useSnackbar()
   const [type, setType] = useState<SnackbarProps['type']>('success')
   const [position, setPosition] = useState<SnackbarProps['position']>('left-bottom')
   const positions = ['left-bottom', 'right-bottom', 'mid-bottom', 'left-top', 'right-top', 'mid-top']
   const types = ['success', 'error', 'alert', 'info']
 
+  function handleOpenSnackbar() {
+    openSnackbar({ message: 'Snackbar message!', type, position })
+  }
+
   return (
     <Component title="Snackbars">
       <div className="flex flex-col gap-2">
-        <Button onClick={() => setOpen(true)}>Open Snackbars</Button>
+        <Button onClick={handleOpenSnackbar}>Open Snackbars</Button>
         <div className="flex gap-2">
           <Select label="type" onChange={e => setType(e.target.value as any)}>
             {types.map(t => (
@@ -112,13 +117,6 @@ function Snackbars() {
           </Select>
         </div>
       </div>
-      <Snackbar
-        open={open}
-        message="Snackbar message!"
-        onClose={() => setOpen(false)}
-        type={type}
-        position={position}
-      />
     </Component>
   )
 }

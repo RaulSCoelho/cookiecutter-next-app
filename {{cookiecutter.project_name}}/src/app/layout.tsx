@@ -6,6 +6,7 @@ import { UserProvider } from '@/hooks/useUser'
 import { Inter } from 'next/font/google'
 
 import { Header } from './header'
+import { SnackbarControl } from './SnackbarControl'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <UserProvider>
             <div className="h-screen scrollbar scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
               <Header />
-              <div className="pt-28 sm:px-14 sm:pt-14">{children}</div>
+              <div className="pt-28 sm:px-14 sm:pt-14">
+                {children}
+                <SnackbarControl />
+              </div>
             </div>
           </UserProvider>
         </ThemesProvider>
