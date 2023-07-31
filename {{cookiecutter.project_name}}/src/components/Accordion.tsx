@@ -15,7 +15,7 @@ interface AccordionProps {
 const accordion = tv({
   base: 'flex items-center justify-between rounded-lg p-4 text-lg cursor-pointer',
   slots: {
-    arrow: 'transition-[transform] duration-normal'
+    arrow: 'transition-[transform] duration-300'
   },
   variants: {
     open: {
@@ -45,7 +45,7 @@ export function Accordion({ children, text, icon: Icon, open: openProp = false, 
         </div>
         <MdOutlineKeyboardArrowDown size={24} className={arrow()} />
       </div>
-      <div className="duration-normal overflow-hidden transition-[height] ease-in-out" style={style}>
+      <div className="overflow-hidden transition-[height] duration-300 ease-in-out" style={style}>
         <div ref={childrenRef}>{children}</div>
       </div>
     </div>
