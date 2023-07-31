@@ -62,7 +62,7 @@ export function Sidebar({ children, open, onClose, position = 'left', title, log
   return (
     <div className={bg()} onClick={handleClickOutside}>
       <div className={menu()}>
-        {title && <SidebarHeader text={title} logo={logo} reverse={position === 'right'} onClose={onClose} />}
+        <SidebarHeader text={title} logo={logo} reverse={position === 'right'} onClose={onClose} />
         {children}
       </div>
     </div>
