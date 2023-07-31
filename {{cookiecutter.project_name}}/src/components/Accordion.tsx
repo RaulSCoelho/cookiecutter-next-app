@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react'
+import { CSSProperties, ReactNode, useRef, useState } from 'react'
 import { IconType } from 'react-icons/lib'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
@@ -30,6 +30,7 @@ export function Accordion({ children, text, icon: Icon, open: openProp = false, 
   const childrenRef = useRef<HTMLDivElement>(null)
   const childHeight = childrenRef.current?.offsetHeight
   const { base, arrow } = accordion({ open })
+  const style: CSSProperties = { height: open ? childHeight : '0' }
 
   function toggleOpen() {
     setOpen(prev => !prev)
@@ -44,10 +45,7 @@ export function Accordion({ children, text, icon: Icon, open: openProp = false, 
         </div>
         <MdOutlineKeyboardArrowDown size={24} className={arrow()} />
       </div>
-      <div
-        className="duration-normal overflow-hidden transition-[height] ease-in-out"
-        style={{ height: open ? childHeight : '0' }}
-      >
+      <div className="duration-normal overflow-hidden transition-[height] ease-in-out" style={style}>
         <div ref={childrenRef}>{children}</div>
       </div>
     </div>
