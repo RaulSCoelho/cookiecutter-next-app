@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useRef, useState } from 'react'
 import { IconType } from 'react-icons/lib'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
@@ -13,40 +13,43 @@ interface AccordionProps {
 }
 
 const accordion = tv({
+  base: 'flex items-center justify-between rounded-lg p-4 text-lg cursor-pointer',
   slots: {
-    parent: 'flex items-center justify-between gap-4 rounded-lg p-4 text-lg cursor-pointer mb-2',
-    arrow: 'transition-[transform] duration-normal',
-    child: 'flex flex-col gap-2 px-2 transition-[height] duration-normal ease-in-out'
+    arrow: 'transition-[transform] duration-normal'
   },
   variants: {
     open: {
-      true: {
-        arrow: '',
-        child: 'overflow-y-auto h-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]'
-      },
-      false: { arrow: 'rotate-180', child: 'overflow-hidden h-0' }
+      true: {},
+      false: { arrow: 'rotate-180' }
     }
   }
 })
 
 export function Accordion({ children, text, icon: Icon, open: openProp = false, className }: AccordionProps) {
   const [open, setOpen] = useState(openProp)
-  const { parent, arrow, child } = accordion({ open })
+  const childrenRef = useRef<HTMLDivElement>(null)
+  const childHeight = childrenRef.current?.offsetHeight
+  const { base, arrow } = accordion({ open })
 
   function toggleOpen() {
     setOpen(prev => !prev)
   }
 
   return (
-    <div className="flex flex-col">
-      <div className={parent({ className })} onClick={toggleOpen}>
-        <div className="flex gap-4">
+    <div>
+      <div className={base({ className })} onClick={toggleOpen}>
+        <div className="mr-4 flex gap-4">
           {Icon && <Icon size={24} />}
           {text}
         </div>
         <MdOutlineKeyboardArrowDown size={24} className={arrow()} />
       </div>
-      <div className={child()}>{children}</div>
+      <div
+        className="duration-normal overflow-hidden transition-[height] ease-in-out"
+        style={{ height: open ? childHeight : '0' }}
+      >
+        <div ref={childrenRef}>{children}</div>
+      </div>
     </div>
   )
 }

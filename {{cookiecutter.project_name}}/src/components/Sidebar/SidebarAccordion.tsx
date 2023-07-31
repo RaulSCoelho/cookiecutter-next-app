@@ -35,9 +35,11 @@ export function SidebarAccordion({ icon, text, path, paths }: SidebarAccordionPr
 
   return (
     <Accordion text={text} icon={icon} className={sidebarAccordion({ selected })} open={selected}>
-      {paths.map(p => (
-        <SidebarRoute text={p.text} icon={p.icon} path={path + p.subPath} key={p.text} />
-      ))}
+      <div className="flex flex-col gap-2 px-2 pt-2">
+        {paths.map(p => (
+          <SidebarRoute text={p.text} icon={p.icon} path={path + p.subPath} key={p.text} />
+        ))}
+      </div>
     </Accordion>
   )
 }
