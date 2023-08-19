@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          light: '#D1E9FC',
+          light: '#2065D1',
           dark: '#103996'
         },
         secondary: {
@@ -30,6 +30,14 @@ module.exports = {
           light: '#FFE9D5',
           dark: '#FF5630'
         }
+      },
+      backgroundColor: {
+        light: '#ffff',
+        dark: '#16223b'
+      },
+      textColor: {
+        light: '#f7fafc',
+        dark: '#000000'
       },
       animation: {
         'fade-in': 'fade-in 225ms ease-in-out',

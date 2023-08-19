@@ -1,15 +1,20 @@
 'use client'
 
+import { MdMenu } from 'react-icons/md'
+
+import { IconButton } from '@/components/Buttons/IconButton'
 import { ThemeSwitcher } from '@/components/Switchers/ThemeSwitcher'
 import Link from 'next/link'
 
-import { SidebarControl } from './SidebarControl'
+import { useMainSidebar } from './(Global)/MainSidebar'
 
 export function Header() {
+  const { open: openSidebar } = useMainSidebar()
+
   return (
-    <div className="fixed top-0 z-10 flex h-14 w-full items-center justify-between bg-[#fbfbfb] px-4 shadow-md dark:bg-[#0F172A]">
-      <div className="flex items-center gap-4">
-        <SidebarControl />
+    <div className="sticky inset-x-0 top-0 z-10 flex h-14 select-none items-center justify-between border-b border-slate-900/10 bg-white/90 px-4 backdrop-blur dark:border-slate-300/10 dark:bg-[#0F172A]/75">
+      <div className="flex h-full items-center gap-4">
+        <IconButton icon={MdMenu} size={24} onClick={openSidebar} className="rounded bg-transparent" />
         <Link href="/" className="text-lg font-semibold">
           Cookiecutter Next.js Template
         </Link>

@@ -8,7 +8,7 @@ interface SidebarFooterProps {
 }
 
 const footer = tv({
-  base: 'flex min-h-[3rem] items-stretch bg-black bg-opacity-5'
+  base: 'flex min-h-[3rem] items-stretch'
 })
 
 export function SidebarFooter({ children, className }: SidebarFooterProps) {

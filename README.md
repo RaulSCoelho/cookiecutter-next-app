@@ -29,7 +29,7 @@ To create a new project using the Cookiecutter Next App template, follow these s
 3. Generate a new Next.js project with the Cookiecutter Next App template:
    
 ```bash
-cookiecutter git@github.com:RaulSCoelho/cookiecutter-next-app.git
+python -m cookiecutter git@github.com:RaulSCoelho/cookiecutter-next-app.git
 ```
 
 4. Navigate into the generated project folder:

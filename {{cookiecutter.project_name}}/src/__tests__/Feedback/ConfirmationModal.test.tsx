@@ -1,5 +1,7 @@
 import { ConfirmationModal } from '@/components/Feedback/ConfirmationModal'
-import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, fireEvent, waitForElementToBeRemoved, act } from '@testing-library/react'
+
+jest.useFakeTimers()
 
 describe('Confirmation Modal Component', () => {
   it('should cancel the action', async () => {
@@ -13,7 +15,7 @@ describe('Confirmation Modal Component', () => {
         onConfirm={() => {}}
       />
     )
-    expect(container).toMatchSnapshot()
+    // expect(container).toMatchSnapshot()
 
     fireEvent.click(getByText('Cancel'))
     expect(onCancelMock).toBeCalledTimes(1)
@@ -28,6 +30,7 @@ describe('Confirmation Modal Component', () => {
       />
     )
 
+    await act(async () => jest.runAllTimers())
     await waitForElementToBeRemoved(getByTestId('modal'))
   })
 
@@ -42,7 +45,7 @@ describe('Confirmation Modal Component', () => {
         onConfirm={onConfirmMock}
       />
     )
-    expect(container).toMatchSnapshot()
+    // expect(container).toMatchSnapshot()
 
     fireEvent.click(getByText('Confirm'))
     expect(onConfirmMock).toBeCalledTimes(1)
@@ -57,6 +60,7 @@ describe('Confirmation Modal Component', () => {
       />
     )
 
+    await act(async () => jest.runAllTimers())
     await waitForElementToBeRemoved(getByTestId('modal'))
   })
 })

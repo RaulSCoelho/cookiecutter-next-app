@@ -1,53 +1,69 @@
-import { CSSProperties, ReactNode, useRef, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { IconType } from 'react-icons/lib'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
 import { tv } from 'tailwind-variants'
 
+import { Collapse } from './Collapse'
+
 interface AccordionProps {
   children: ReactNode
-  text: string
+  title: string
   icon?: IconType
-  open?: boolean
+  color?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
+  expanded?: boolean
+  wrapperClassName?: string
   className?: string
+  onChange?(open: boolean): void
 }
 
 const accordion = tv({
-  base: 'flex items-center justify-between rounded-lg p-4 text-lg cursor-pointer',
+  base: 'flex items-center justify-between p-4 text-lg cursor-pointer',
   slots: {
+    wrapper: 'h-fit overflow-hidden',
     arrow: 'transition-[transform] duration-300'
   },
   variants: {
     open: {
-      true: {},
-      false: { arrow: 'rotate-180' }
+      true: { arrow: 'rotate-180' },
+      false: {}
+    },
+    color: {
+      primary: { base: 'bg-primary-light dark:bg-primary-dark' },
+      secondary: { base: 'bg-secondary-light dark:bg-secondary-dark' },
+      info: { base: 'bg-info-light dark:bg-info-dark' },
+      success: { base: 'bg-success-light dark:bg-success-dark' },
+      warning: { base: 'bg-warning-light dark:bg-warning-dark' },
+      error: { base: 'bg-error-light dark:bg-error-dark' }
     }
   }
 })
 
-export function Accordion({ children, text, icon: Icon, open: openProp = false, className }: AccordionProps) {
-  const [open, setOpen] = useState(openProp)
-  const childrenRef = useRef<HTMLDivElement>(null)
-  const childHeight = childrenRef.current?.offsetHeight
-  const { base, arrow } = accordion({ open })
-  const style: CSSProperties = { height: open ? childHeight : '0' }
-
-  function toggleOpen() {
-    setOpen(prev => !prev)
-  }
+export function Accordion({
+  children,
+  title,
+  icon: Icon,
+  color,
+  expanded = false,
+  wrapperClassName,
+  className,
+  onChange
+}: AccordionProps) {
+  const [open, setOpen] = useState(expanded)
+  const { wrapper, base, arrow } = accordion({ open, color })
 
   return (
-    <div>
-      <div className={base({ className })} onClick={toggleOpen}>
+    <div className={wrapper({ className: wrapperClassName })}>
+      <div className={base({ className })} onClick={() => setOpen(prev => !prev)}>
         <div className="mr-4 flex gap-4">
           {Icon && <Icon size={24} />}
-          {text}
+          {title}
         </div>
         <MdOutlineKeyboardArrowDown size={24} className={arrow()} />
       </div>
-      <div className="overflow-hidden transition-[height] duration-300 ease-in-out" style={style}>
-        <div ref={childrenRef}>{children}</div>
-      </div>
+      <Collapse open={open} onChange={onChange}>
+        {children}
+      </Collapse>
     </div>
   )
 }

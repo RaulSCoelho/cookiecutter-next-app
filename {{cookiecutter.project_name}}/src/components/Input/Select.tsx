@@ -9,7 +9,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const select = tv({
-  base: 'w-full cursor-pointer rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none'
+  base: 'w-full cursor-pointer rounded bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:outline-none dark:bg-white'
 })
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(

@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { SignInRequest, signInSchema } from '@/@types/user'
 import { Button } from '@/components/Buttons'
 import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
 import { useUser } from '@/hooks/useUser'
-import { SignInRequest, signInSchema } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 export function Login() {

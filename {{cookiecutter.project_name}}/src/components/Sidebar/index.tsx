@@ -1,14 +1,21 @@
-import { MouseEvent, ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 
+import { useScrollbar } from '@/hooks/useScrollbar'
+import { handleClickOutside } from '@/utils/element'
 import { usePathname } from 'next/navigation'
 import { tv } from 'tailwind-variants'
 
+import { SidebarAccordion } from './SidebarAccordion'
+import { SidebarBody } from './SidebarBody'
+import { SidebarFooter } from './SidebarFooter'
 import { SidebarHeader } from './SidebarHeader'
+import { SidebarRoute } from './SidebarRoute'
 
-interface SidebarRootProps {
+interface SidebarProps {
   children: ReactNode
   open: boolean
   onClose(): void
+  className?: string
   position?: 'left' | 'right'
   title?: string
   logo?: string
@@ -16,8 +23,8 @@ interface SidebarRootProps {
 
 const sidebar = tv({
   slots: {
-    bg: 'fixed z-10 bg-black bg-opacity-50 select-none',
-    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-[#fbfbfb] transition-[inset] dark:bg-[#0F172A] sm:w-96'
+    bg: 'fixed z-10 bg-black/50 select-none',
+    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-light/90 text-dark backdrop-blur transition-[inset] dark:bg-dark/90 dark:text-light sm:w-96'
   },
   variants: {
     open: {
@@ -40,31 +47,29 @@ const sidebar = tv({
   }
 })
 
-export function Sidebar({ children, open, onClose, position = 'left', title, logo }: SidebarRootProps) {
+export function Sidebar({ children, open, onClose, className, position = 'left', title, logo }: SidebarProps) {
+  const sidebarRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const { bg, menu } = sidebar({ open, position })
+
+  useScrollbar({ disable: open })
 
   useEffect(() => {
     if (open) onClose()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
-  function handleClickOutside(e: MouseEvent<HTMLDivElement>) {
-    const sidebarBg = e.currentTarget as HTMLDivElement
-    const sidebar = sidebarBg.firstChild as HTMLElement
-    const target = e.target as HTMLDivElement
-
-    if (!sidebar.contains(target) && sidebarBg.style.display !== 'none') {
-      onClose()
-    }
-  }
-
   return (
-    <div className={bg()} onClick={handleClickOutside}>
-      <div className={menu()}>
-        <SidebarHeader text={title} logo={logo} reverse={position === 'right'} onClose={onClose} />
+    <div onClick={handleClickOutside(sidebarRef, onClose)} className={bg()}>
+      <div ref={sidebarRef} className={menu({ className })}>
+        <SidebarHeader title={title} logo={logo} reverse={position === 'right'} onClose={onClose} />
         {children}
       </div>
     </div>
   )
 }
+
+Sidebar.Body = SidebarBody
+Sidebar.Accordion = SidebarAccordion
+Sidebar.Route = SidebarRoute
+Sidebar.Footer = SidebarFooter

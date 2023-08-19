@@ -10,19 +10,45 @@ const sizes = {
   '2xl': 1536
 }
 
-export function useMediaQuery(size: keyof typeof sizes | number) {
-  const ssr = typeof window === 'undefined'
-  const [matches, setMatches] = useState(() => {
-    if (ssr) return false
+interface useMediaQueryProps {
+  size?: keyof typeof sizes | number
+}
 
-    const screenSize = typeof size === 'number' ? size : sizes[size]
-    const mql = window.matchMedia(`(max-width: ${screenSize}px)`)
-    return mql.matches
-  })
+export interface useMediaQueryResponse {
+  matches: boolean
+  systemTheme: 'light' | 'dark'
+}
+
+function getSystemTheme() {
+  if (typeof window === 'undefined') return 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function getScreenMatch(size: keyof typeof sizes | number) {
+  if (typeof window === 'undefined' || !size) return false
+  const screenSize = typeof size === 'number' ? size : sizes[size]
+  const mql = window.matchMedia(`(max-width: ${screenSize}px)`)
+  return mql.matches
+}
+
+export function useMediaQuery({ size = 0 }: useMediaQueryProps = { size: 0 }): useMediaQueryResponse {
+  const [systemTheme, setSystemTheme] = useState<useMediaQueryResponse['systemTheme']>(getSystemTheme())
+  const [matches, setMatches] = useState(getScreenMatch(size))
 
   useEffect(() => {
-    if (ssr) return
+    function handleSystemThemeChange(e: MediaQueryListEvent) {
+      setSystemTheme(e.matches ? 'dark' : 'light')
+    }
 
+    const isSystemDarkMQ = window.matchMedia('(prefers-color-scheme: dark)')
+    isSystemDarkMQ.addEventListener('change', handleSystemThemeChange)
+
+    return () => {
+      isSystemDarkMQ.removeEventListener('change', handleSystemThemeChange)
+    }
+  }, [])
+
+  useEffect(() => {
     const screenSize = typeof size === 'number' ? size : sizes[size]
     const mql = window.matchMedia(`(max-width: ${screenSize}px)`)
 
@@ -35,7 +61,7 @@ export function useMediaQuery(size: keyof typeof sizes | number) {
     return () => {
       mql.removeEventListener('change', resize)
     }
-  }, [ssr, size])
+  }, [size])
 
-  return matches
+  return { systemTheme, matches }
 }

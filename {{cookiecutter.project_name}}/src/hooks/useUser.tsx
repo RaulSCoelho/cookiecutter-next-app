@@ -2,8 +2,8 @@
 
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
-import { api } from '@/services/http/axios'
-import { SignInRequest } from '@/types/user'
+import { SignInRequest } from '@/@types/user'
+import { api } from '@/services/axios'
 import { User } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'

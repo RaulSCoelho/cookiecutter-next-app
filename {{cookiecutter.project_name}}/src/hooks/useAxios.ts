@@ -1,4 +1,4 @@
-import { api } from '@/services/http/axios'
+import { api } from '@/services/axios'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export const useAxios = {

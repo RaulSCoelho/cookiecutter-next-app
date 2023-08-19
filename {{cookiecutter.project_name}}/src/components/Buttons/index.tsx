@@ -12,10 +12,10 @@ const button = tv({
   base: 'rounded px-4 py-2 font-bold focus:outline-none text-white',
   variants: {
     variant: {
-      text: 'text-[#2065D1] hover:bg-[#2065D120] dark:text-[#103996] dark:hover:bg-[#10399620]',
-      contained: 'bg-[#2065D1] hover:bg-[#1d56b1] dark:bg-[#103996] dark:hover:bg-[#061B64]',
+      text: 'text-primary-light hover:bg-primary-light/20 dark:hover:bg-primary-dark/20',
+      contained: 'bg-primary-light hover:brightness-90 dark:bg-primary-dark dark:hover:brightness-110',
       outlined:
-        'border border-[#2065D1] text-[#2065D1] hover:bg-[#2065D120] dark:border-[#103996] dark:text-[#103996] dark:hover:bg-[#10399620]'
+        'border border-primary-light text-primary-light hover:bg-primary-light/20 dark:border-primary-dark dark:hover:bg-primary-dark/20'
     },
     readOnly: {
       true: 'text-gray-500 bg-gray-400 hover:bg-gray-400 dark:text-gray-500 dark:bg-gray-400 dark:hover:bg-gray-400'

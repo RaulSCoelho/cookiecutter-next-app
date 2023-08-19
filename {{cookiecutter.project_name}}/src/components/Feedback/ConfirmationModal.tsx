@@ -3,15 +3,15 @@ import { Modal } from '../Modal'
 
 interface ConfirmationModalProps {
   open: boolean
-  title: string
-  question: string
-  onConfirm(): void
-  onCancel(): void
+  title?: string
+  question?: string
+  onConfirm?(): void
+  onCancel?(): void
 }
 
 export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: ConfirmationModalProps) {
   return (
-    <Modal.Root open={open} title={title} onClose={onCancel} fullScreen={false}>
+    <Modal open={open} title={title} onClose={onCancel} fullScreen={false}>
       <Modal.Content>
         <p>{question}</p>
       </Modal.Content>
@@ -19,6 +19,6 @@ export function ConfirmationModal({ open, title, question, onConfirm, onCancel }
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={onConfirm}>Confirm</Button>
       </Modal.Actions>
-    </Modal.Root>
+    </Modal>
   )
 }

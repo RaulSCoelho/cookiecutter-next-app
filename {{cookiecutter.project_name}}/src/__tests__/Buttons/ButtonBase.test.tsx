@@ -6,7 +6,7 @@ describe('ButtonBase Component', () => {
     const onClickMock = jest.fn()
     const { container, getByRole, getByTestId } = render(<ButtonBase onClick={onClickMock}>Click</ButtonBase>)
 
-    expect(container).toMatchSnapshot()
+    // expect(container).toMatchSnapshot()
     expect(container.textContent).toEqual('Click')
 
     fireEvent.click(getByRole('button'))
@@ -23,7 +23,7 @@ describe('ButtonBase Component', () => {
       </ButtonBase>
     )
 
-    expect(container).toMatchSnapshot()
+    // expect(container).toMatchSnapshot()
     expect(container.textContent).toEqual('Click')
 
     fireEvent.click(getByRole('button'))

@@ -4,11 +4,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoMdTrash as Trash } from 'react-icons/io'
 
+import { SignUpRequest, signUpSchema } from '@/@types/user'
 import { Button } from '@/components/Buttons'
 import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
 import { useAxios } from '@/hooks/useAxios'
-import { SignUpRequest, signUpSchema } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 
@@ -84,7 +84,7 @@ export function Users({ users }: UsersProps) {
           {userList.map(user => (
             <div
               key={user.id}
-              className="relative flex flex-col items-center overflow-hidden rounded bg-[#e6f4f3] p-4 text-[#3c3c43] shadow dark:bg-[#3c3c43] dark:text-[#f7fafc]"
+              className="relative flex flex-col items-center overflow-hidden rounded bg-light p-4 text-dark shadow dark:bg-dark dark:text-light"
             >
               <p className="break-all font-semibold">{user.username}</p>
               <p className="break-all font-semibold">{user.role}</p>

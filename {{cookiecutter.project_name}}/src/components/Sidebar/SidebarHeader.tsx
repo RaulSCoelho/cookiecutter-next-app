@@ -9,7 +9,7 @@ import { IconButton } from '../Buttons/IconButton'
 
 interface SidebarHeaderProps {
   onClose(): void
-  text?: string
+  title?: string
   logo?: string
   reverse?: boolean
 }
@@ -24,14 +24,14 @@ const header = tv({
   }
 })
 
-export function SidebarHeader({ onClose, text, logo, reverse = false }: SidebarHeaderProps) {
-  const style: CSSProperties = { borderRadius: '0.25rem' }
+export function SidebarHeader({ onClose, title, logo, reverse = false }: SidebarHeaderProps) {
+  const style: CSSProperties = { borderRadius: '0.25rem', opacity: 0.8 }
 
   return (
     <div className={header({ reverse })}>
-      <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
+      <Link href="/" className="flex items-center gap-3">
         {logo && <Image src={logo} alt="logo" width={35} height={35} style={style} />}
-        {text}
+        <span className="text-dark dark:text-light font-serif text-2xl font-normal">{title}</span>
       </Link>
       <div className="h-full">
         <IconButton icon={MdClose} onClick={onClose} />

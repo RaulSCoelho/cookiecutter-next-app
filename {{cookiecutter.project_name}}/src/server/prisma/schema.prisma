@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id       String  @id {{ '@default(auto()) @map("_id") @db.ObjectId' if cookiecutter.data_base == 'mongodb' else '@default(uuid())' }}
+  id          String    @id {{ '@default(auto()) @map("_id") @db.ObjectId' if cookiecutter.data_base == 'mongodb' else '@default(uuid())' }}
   username    String    @unique
   role        Role      @default(USER)
   password    String
